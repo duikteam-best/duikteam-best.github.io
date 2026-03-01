@@ -40,3 +40,6 @@ gem "minimal-mistakes-jekyll"
 
 # public_suffix 7.x requires Ruby >= 3.2; constrain to 6.x for GitHub Actions Ruby 3.1
 gem "public_suffix", "~> 6.0"
+
+# sass-embedded 1.97+ requires Ruby >= 3.2; constrain to 1.96.x which is compatible with Ruby 3.1
+gem "sass-embedded", "~> 1.96"
