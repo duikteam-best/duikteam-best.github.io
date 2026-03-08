@@ -32,3 +32,6 @@ niet de netten vormen het grootste risico onder water, maar onze eigen reactie e
 En mocht er toch een beschadiging ontstaan dan melden we dit netjes bij de Waterpolitie Zeeuwse Stromen.
 
 Weer een geslaagde training met dank aan onze instructeurs en toezichthouder.
+
+
+![](/assets/uploads/IMG_1713.jpeg)
