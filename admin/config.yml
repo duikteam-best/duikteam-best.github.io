@@ -1,6 +1,6 @@
 backend:
-  name: git-gateway
-  branch: main
+  name: github
+  repo: duikteam-best/duikteam-best.github.io
 media_folder: 'assets/uploads'
 collections:
   - name: 'dives'
