@@ -2,9 +2,9 @@ import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
-import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon} from '@sanity/icons'
+import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon, ActivityIcon} from '@sanity/icons'
 
-const singletonTypes = new Set(['homePage', 'aboutUs', 'certifications', 'certification'])
+const singletonTypes = new Set(['homePage', 'aboutUs', 'certifications', 'certification', 'divelogsOverview'])
 
 export default defineConfig({
   name: 'default',
@@ -59,6 +59,28 @@ export default defineConfig({
                       ),
                     S.divider(),
                     S.documentTypeListItem('certification').title('Opleidingen'),
+                  ]),
+              ),
+            S.listItem()
+              .title('Duiklogs')
+              .id('divelogs')
+              .icon(ActivityIcon)
+              .child(
+                S.list()
+                  .title('Duiklogs')
+                  .items([
+                    S.listItem()
+                      .title('Overzichtspagina')
+                      .id('divelogsOverview')
+                      .icon(ActivityIcon)
+                      .child(
+                        S.document()
+                          .schemaType('divelogsOverview')
+                          .documentId('divelogsOverview')
+                          .title('Overzichtspagina'),
+                      ),
+                    S.divider(),
+                    S.documentTypeListItem('dive').title('Duiklogs'),
                   ]),
               ),
             S.divider(),

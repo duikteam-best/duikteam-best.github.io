@@ -57,6 +57,57 @@ async function fetchType(type) {
   });
 }
 
+async function fetchDivelogsOverview() {
+  const query = `*[_id == "divelogsOverview"][0]`;
+  const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  const json = await res.json();
+  const item = json.result;
+  if (!item) {
+    console.log('⚠️  No divelogsOverview document found in Sanity');
+    return null;
+  }
+  if (item.body) {
+    item.bodyHTML = toHTML(item.body, {
+      block: (props) => `<p>${props.children.join('')}</p>`,
+      marks: {
+        strong: (text) => `<strong>${text}</strong>`,
+        em: (text) => `<em>${text}</em>`,
+        code: (text) => `<code>${text}</code>`
+      }
+    });
+  }
+  return item;
+}
+
+async function fetchDives() {
+  const query = `*[_type == "dive"] | order(date desc)`;
+  const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  const json = await res.json();
+
+  return json.result.map(item => {
+    if (item.description) {
+      item.descriptionHTML = toHTML(item.description, {
+        block: (props) => `<p>${props.children.join('')}</p>`,
+        marks: {
+          strong: (text) => `<strong>${text}</strong>`,
+          em: (text) => `<em>${text}</em>`,
+          code: (text) => `<code>${text}</code>`
+        }
+      });
+    }
+    if (item.photos) {
+      item.photos = item.photos.map(p => ({
+        url: getImageUrl(p),
+        caption: p.caption || "",
+        alt: p.alt || ""
+      }));
+    }
+    return item;
+  });
+}
+
 async function fetchHomePage() {
   const query = `*[_id == "homePage"][0]`;
   const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
@@ -166,9 +217,107 @@ function escapeYaml(str) {
 }
 
 async function main() {
-  const dives = await fetchType('dive');
+  const divelogsOverview = await fetchDivelogsOverview();
+  if (divelogsOverview) {
+    fs.writeFileSync('_data/divelogs_overview.json', JSON.stringify(divelogsOverview, null, 2));
+    console.log('✅ Fetched divelogsOverview singleton from Sanity!');
+  }
+
+  const dives = await fetchDives();
   fs.writeFileSync('_data/dives.json', JSON.stringify(dives, null, 2));
-  console.log('✅ Fetched and processed dives from Sanity!');
+  console.log(`✅ Fetched ${dives.length} dives from Sanity!`);
+
+  // Generate individual dive log detail pages
+  fs.mkdirSync('_divelogs', { recursive: true });
+  for (const dive of dives) {
+    const slug = dive.slug?.current || dive._id;
+    const title = dive.title || 'Duiklog';
+    const dateStr = dive.date ? new Date(dive.date).toLocaleDateString('nl-NL', { year: 'numeric', month: 'long', day: 'numeric' }) : '';
+    const teaserUrl = dive.photos?.[0]?.url || null;
+    const headerImageHtml = teaserUrl
+      ? `<img src="${teaserUrl}" alt="${title}" class="divelog-detail__hero">`
+      : '';
+    const metaHtml = [
+      dateStr ? `<span class="divelog-detail__date"><i class="fas fa-calendar-alt"></i> ${dateStr}</span>` : '',
+      dive.location ? `<span class="divelog-detail__location"><i class="fas fa-map-marker-alt"></i> ${dive.location}</span>` : ''
+    ].filter(Boolean).join('\n      ');
+    const descHtml = dive.descriptionHTML || '';
+    const galleryHtml = dive.photos && dive.photos.length > 0
+      ? `<div class="divelog-detail__gallery">\n${dive.photos.map(p =>
+          `      <figure class="divelog-detail__gallery-item">\n        <img src="${p.url}" alt="${p.alt || title}">\n        ${p.caption ? `<figcaption>${p.caption}</figcaption>` : ''}\n      </figure>`
+        ).join('\n')}\n    </div>`
+      : '';
+
+    const fileContent = `---
+layout: single
+title: "${escapeYaml(title)}"
+author_profile: false
+---
+
+<div class="divelog-detail">
+  ${headerImageHtml}
+
+  <div class="divelog-detail__meta">
+    ${metaHtml}
+  </div>
+
+  <div class="divelog-detail__body">
+    ${descHtml}
+  </div>
+
+  ${galleryHtml}
+
+  <a href="/duiklogs/" class="btn btn--inverse">&larr; Terug naar duiklogs</a>
+</div>
+
+<style>
+.divelog-detail__hero {
+  width: 100%;
+  max-height: 420px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 1.5rem;
+}
+.divelog-detail__meta {
+  display: flex;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+  font-size: 0.95rem;
+  color: #555;
+}
+.divelog-detail__meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+.divelog-detail__body p {
+  line-height: 1.7;
+}
+.divelog-detail__gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 0.75rem;
+  margin: 2rem 0;
+}
+.divelog-detail__gallery-item img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 6px;
+  display: block;
+}
+.divelog-detail__gallery-item figcaption {
+  font-size: 0.82rem;
+  text-align: center;
+  margin-top: 0.3rem;
+  color: #666;
+}
+</style>
+`;
+    fs.writeFileSync(`_divelogs/${slug}.html`, fileContent);
+  }
+  console.log(`✅ Generated ${dives.length} dive log detail pages in _divelogs/`);
 
   const homePage = await fetchHomePage();
   if (homePage) {

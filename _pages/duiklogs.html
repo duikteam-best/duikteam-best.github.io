@@ -1,83 +1,161 @@
 ---
 title: Duiken
-layout: collection
+layout: single
 permalink: /duiklogs/
-entries_layout: grid
 classes: wide
+author_profile: false
 ---
 
-<!-- Prevent browser caching of this page -->
-<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-<meta http-equiv="Pragma" content="no-cache" />
-<meta http-equiv="Expires" content="0" />
+{% assign overview = site.data.divelogs_overview %}
+{% assign dives = site.data.dives %}
 
-<div class="dives-overview grid">
-  {% assign dives = site.data.dives %}
-  {% if dives and dives.size > 0 %}
+{% if overview.bodyHTML %}
+  <div class="divelogs-intro">
+    {{ overview.bodyHTML }}
+  </div>
+{% endif %}
+
+{% if dives and dives.size > 0 %}
+  <div class="divelogs-grid">
     {% for dive in dives %}
-      <div class="dive-card">
-        <h2>{{ dive.title }}</h2>
-        {% if dive.date %}
-          <p class="dive-date">{{ dive.date | date: "%B %d, %Y" }}</p>
-        {% endif %}
-        {% if dive.location %}
-          <p class="dive-location">{{ dive.location }}</p>
-        {% endif %}
-
-        {% if dive.photos and dive.photos.size > 0 %}
-          <div class="dive-gallery">
-            {% for photo in dive.photos %}
-              <figure class="gallery-item">
-                <img src="{{ photo.url }}" alt="{{ photo.alt }}">
-                {% if photo.caption %}
-                  <figcaption>{{ photo.caption }}</figcaption>
-                {% endif %}
-              </figure>
-            {% endfor %}
+      {% assign slug = dive.slug.current | default: dive._id %}
+      <div class="divelog-card">
+        <a href="/duiklogs/{{ slug }}/" class="divelog-card__link">
+          <div class="divelog-card__image">
+            {% if dive.photos and dive.photos.size > 0 %}
+              <img src="{{ dive.photos[0].url }}" alt="{{ dive.title }}">
+            {% else %}
+              <img src="/assets/images/logo-duikteam-best.png" alt="{{ dive.title }}" class="divelog-card__image--placeholder">
+            {% endif %}
           </div>
-        {% endif %}
-
-        {% if dive.descriptionHTML %}
-          <div class="dive-description">
-            {{ dive.descriptionHTML | raw }}
+        </a>
+        <div class="divelog-card__content">
+          <a href="/duiklogs/{{ slug }}/" class="divelog-card__title-link">
+            <h2 class="divelog-card__title">{{ dive.title }}</h2>
+          </a>
+          <div class="divelog-card__meta">
+            {% if dive.date %}
+              <span><i class="fas fa-calendar-alt"></i> {{ dive.date | date: "%-d %B %Y" }}</span>
+            {% endif %}
+            {% if dive.location %}
+              <span><i class="fas fa-map-marker-alt"></i> {{ dive.location }}</span>
+            {% endif %}
           </div>
-        {% endif %}
+          {% if dive.descriptionHTML %}
+            <div class="divelog-card__excerpt">
+              {{ dive.descriptionHTML | strip_html | truncatewords: 25 }}
+            </div>
+          {% endif %}
+          <a href="/duiklogs/{{ slug }}/" class="btn btn--primary btn--small divelog-card__btn">Lees meer</a>
+        </div>
       </div>
     {% endfor %}
-  {% else %}
-    <p>No dives found yet.</p>
-  {% endif %}
-</div>
+  </div>
+{% else %}
+  <p>Nog geen duiklogs beschikbaar. Kom binnenkort terug!</p>
+{% endif %}
 
 <style>
-.dives-overview.grid {
+.divelogs-intro {
+  margin-bottom: 2rem;
+}
+
+.divelogs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
   gap: 2rem;
-}
-
-.dive-card {
-  border: 1px solid #ddd;
-  padding: 1rem;
-  border-radius: 8px;
-}
-
-.dive-gallery {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-  gap: 0.5rem;
   margin-top: 1rem;
 }
 
-.gallery-item img {
-  width: 100%;
-  height: auto;
-  display: block;
+.divelog-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
 }
 
-.gallery-item figcaption {
+.divelog-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  transform: translateY(-2px);
+}
+
+.divelog-card__image {
+  height: 200px;
+  overflow: hidden;
+  background: #f5f7fa;
+}
+
+.divelog-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.divelog-card__image img.divelog-card__image--placeholder {
+  object-fit: contain;
+  padding: 2rem;
+}
+
+.divelog-card:hover .divelog-card__image img {
+  transform: scale(1.04);
+}
+
+.divelog-card__link {
+  display: block;
+  overflow: hidden;
+}
+
+.divelog-card__content {
+  padding: 1.2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.divelog-card__title-link {
+  text-decoration: none;
+  color: inherit;
+}
+
+.divelog-card__title {
+  margin: 0;
+  font-size: 1.1rem;
+  line-height: 1.3;
+}
+
+.divelog-card__title-link:hover .divelog-card__title {
+  color: #0077b6;
+}
+
+.divelog-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
   font-size: 0.85rem;
-  text-align: center;
-  margin-top: 0.25rem;
+  color: #666;
+}
+
+.divelog-card__meta span {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.divelog-card__excerpt {
+  flex: 1;
+  font-size: 0.92rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.divelog-card__btn {
+  margin-top: 0.5rem;
+  align-self: flex-start;
 }
 </style>

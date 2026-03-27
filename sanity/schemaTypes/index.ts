@@ -4,5 +4,6 @@ import homePage from './homePage'
 import certifications from './certifications'
 import certification from './certification'
 import aboutUs from './aboutUs'
+import divelogsOverview from './divelogsOverview'
 
-export const schemaTypes = [homePage, aboutUs, certifications, certification, page, dive]
+export const schemaTypes = [homePage, aboutUs, certifications, certification, divelogsOverview, page, dive]

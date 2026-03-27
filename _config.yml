@@ -132,6 +132,9 @@ collections:
   certifications:
     output: true
     permalink: /opleidingen/:path/
+  divelogs:
+    output: true
+    permalink: /duiklogs/:path/
 
 # Defaults
 defaults:
@@ -195,6 +198,14 @@ defaults:
   - scope:
       path: ""
       type: certifications
+    values:
+      layout: single
+      author_profile: false
+      share: false
+  # _divelogs
+  - scope:
+      path: ""
+      type: divelogs
     values:
       layout: single
       author_profile: false
