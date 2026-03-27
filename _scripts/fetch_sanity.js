@@ -20,6 +20,41 @@ function getImageUrl(image) {
   return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dims}.${format}`;
 }
 
+// Shared Portable Text → HTML renderer with block-image support
+function portableTextToHTML(blocks) {
+  return toHTML(blocks, {
+    components: {
+      types: {
+        image: ({ value }) => {
+          const url = getImageUrl(value);
+          if (!url) return '';
+          const alt = value.alt || '';
+          const caption = value.caption || '';
+          return `<figure class="body-image">
+  <img src="${url}" alt="${alt}" loading="lazy">
+  ${caption ? `<figcaption>${caption}</figcaption>` : ''}
+</figure>`;
+        },
+      },
+      block: {
+        normal: ({ children }) => `<p>${children}</p>`,
+        h1: ({ children }) => `<h1>${children}</h1>`,
+        h2: ({ children }) => `<h2>${children}</h2>`,
+        h3: ({ children }) => `<h3>${children}</h3>`,
+        h4: ({ children }) => `<h4>${children}</h4>`,
+        blockquote: ({ children }) => `<blockquote>${children}</blockquote>`,
+      },
+      marks: {
+        strong: ({ children }) => `<strong>${children}</strong>`,
+        em: ({ children }) => `<em>${children}</em>`,
+        code: ({ children }) => `<code>${children}</code>`,
+        underline: ({ children }) => `<u>${children}</u>`,
+        link: ({ value, children }) => `<a href="${value?.href}">${children}</a>`,
+      },
+    },
+  });
+}
+
 async function fetchType(type) {
   const query = `*[_type=="${type}"]`;
   const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
@@ -29,14 +64,7 @@ async function fetchType(type) {
   return json.result.map(item => {
     // convert description Portable Text to HTML
     if (item.description) {
-      item.descriptionHTML = toHTML(item.description, {
-        block: (props) => `<p>${props.children.join('')}</p>`,
-        marks: {
-          strong: (text) => `<strong>${text}</strong>`,
-          em: (text) => `<em>${text}</em>`,
-          code: (text) => `<code>${text}</code>`
-        }
-      });
+      item.descriptionHTML = portableTextToHTML(item.description);
     }
 
     // convert images
@@ -70,14 +98,7 @@ async function fetchDivelogsOverview() {
     return null;
   }
   if (item.body) {
-    item.bodyHTML = toHTML(item.body, {
-      block: (props) => `<p>${props.children.join('')}</p>`,
-      marks: {
-        strong: (text) => `<strong>${text}</strong>`,
-        em: (text) => `<em>${text}</em>`,
-        code: (text) => `<code>${text}</code>`
-      }
-    });
+    item.bodyHTML = portableTextToHTML(item.body);
   }
   return item;
 }
@@ -90,14 +111,7 @@ async function fetchDives() {
 
   return json.result.map(item => {
     if (item.description) {
-      item.descriptionHTML = toHTML(item.description, {
-        block: (props) => `<p>${props.children.join('')}</p>`,
-        marks: {
-          strong: (text) => `<strong>${text}</strong>`,
-          em: (text) => `<em>${text}</em>`,
-          code: (text) => `<code>${text}</code>`
-        }
-      });
+      item.descriptionHTML = portableTextToHTML(item.description);
     }
     if (item.photos) {
       item.photos = item.photos.map(p => ({
@@ -129,14 +143,7 @@ async function fetchHomePage() {
 
   // Convert body Portable Text to HTML
   if (item.body) {
-    item.bodyHTML = toHTML(item.body, {
-      block: (props) => `<p>${props.children.join('')}</p>`,
-      marks: {
-        strong: (text) => `<strong>${text}</strong>`,
-        em: (text) => `<em>${text}</em>`,
-        code: (text) => `<code>${text}</code>`
-      }
-    });
+    item.bodyHTML = portableTextToHTML(item.body);
   }
 
   return item;
@@ -156,14 +163,7 @@ async function fetchAboutUs() {
     item.heroImageUrl = getImageUrl(item.heroImage);
   }
   if (item.body) {
-    item.bodyHTML = toHTML(item.body, {
-      block: (props) => `<p>${props.children.join('')}</p>`,
-      marks: {
-        strong: (text) => `<strong>${text}</strong>`,
-        em: (text) => `<em>${text}</em>`,
-        code: (text) => `<code>${text}</code>`
-      }
-    });
+    item.bodyHTML = portableTextToHTML(item.body);
   }
   return item;
 }
@@ -179,14 +179,7 @@ async function fetchCertificationsOverview() {
     return null;
   }
   if (item.body) {
-    item.bodyHTML = toHTML(item.body, {
-      block: (props) => `<p>${props.children.join('')}</p>`,
-      marks: {
-        strong: (text) => `<strong>${text}</strong>`,
-        em: (text) => `<em>${text}</em>`,
-        code: (text) => `<code>${text}</code>`
-      }
-    });
+    item.bodyHTML = portableTextToHTML(item.body);
   }
   return item;
 }
@@ -198,14 +191,7 @@ async function fetchCertifications() {
   const json = await res.json();
   return json.result.map(item => {
     if (item.description) {
-      item.descriptionHTML = toHTML(item.description, {
-        block: (props) => `<p>${props.children.join('')}</p>`,
-        marks: {
-          strong: (text) => `<strong>${text}</strong>`,
-          em: (text) => `<em>${text}</em>`,
-          code: (text) => `<code>${text}</code>`
-        }
-      });
+      item.descriptionHTML = portableTextToHTML(item.description);
     }
     if (item.image) {
       item.imageUrl = getImageUrl(item.image);

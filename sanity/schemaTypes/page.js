@@ -5,7 +5,13 @@ export default {
   fields: [
     { name: 'title', type: 'string', title: 'Title' },
     { name: 'slug', type: 'slug', title: 'Slug', options: { source: 'title', maxLength: 200 } },
-    { name: 'body', type: 'array', title: 'Body', of: [{ type: 'block' }] },
+    { name: 'body', type: 'array', title: 'Body', of: [
+      { type: 'block' },
+      { type: 'image', options: { hotspot: true }, fields: [
+        { name: 'caption', type: 'string', title: 'Bijschrift' },
+        { name: 'alt', type: 'string', title: 'Alternatieve tekst' },
+      ]},
+    ]},
     { name: 'mainImage', type: 'image', title: 'Main Image' }
   ],
   preview: { select: { title: 'title', media: 'mainImage' } }

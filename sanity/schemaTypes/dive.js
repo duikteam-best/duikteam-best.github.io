@@ -10,7 +10,13 @@ export default {
     { name: 'slug', type: 'slug', title: 'Slug', options: { source: 'title', maxLength: 200 } },
     { name: 'date', type: 'datetime', title: 'Dive Date' },
     { name: 'location', type: 'string', title: 'Location' },
-    { name: 'description', type: 'array', title: 'Description', of: [{ type: 'block' }] },
+    { name: 'description', type: 'array', title: 'Description', of: [
+      { type: 'block' },
+      { type: 'image', options: { hotspot: true }, fields: [
+        { name: 'caption', type: 'string', title: 'Bijschrift' },
+        { name: 'alt', type: 'string', title: 'Alternatieve tekst' },
+      ]},
+    ]},
     { name: 'photos', type: 'array', title: 'Photos', of: [{ type: 'image' }] }
   ],
   preview: { select: { title: 'title', subtitle: 'location', media: 'photos.0' } }
