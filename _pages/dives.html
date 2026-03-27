@@ -1,0 +1,78 @@
+---
+title: Duiken
+layout: collection
+permalink: /dives/
+entries_layout: grid
+classes: wide
+---
+
+<div class="dives-overview grid">
+  {% assign dives = site.data.dives %}
+  {% if dives and dives.size > 0 %}
+    {% for dive in dives %}
+      <div class="dive-card">
+        <h2>{{ dive.title }}</h2>
+        {% if dive.date %}
+          <p class="dive-date">{{ dive.date | date: "%B %d, %Y" }}</p>
+        {% endif %}
+        {% if dive.location %}
+          <p class="dive-location">{{ dive.location }}</p>
+        {% endif %}
+
+        {% if dive.photos and dive.photos.size > 0 %}
+          <div class="dive-gallery">
+            {% for photo in dive.photos %}
+              <figure class="gallery-item">
+                <img src="{{ photo.url }}" alt="{{ photo.alt }}">
+                {% if photo.caption %}
+                  <figcaption>{{ photo.caption }}</figcaption>
+                {% endif %}
+              </figure>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        {% if dive.description %}
+          <div class="dive-description">
+            {{ dive.description | markdownify }}
+          </div>
+        {% endif %}
+      </div>
+    {% endfor %}
+  {% else %}
+    <p>No dives found yet.</p>
+  {% endif %}
+</div>
+
+<style>
+.dives-overview.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.dive-card {
+  border: 1px solid #ddd;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.dive-gallery {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 0.5rem;
+  margin-top: 1rem;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.gallery-item figcaption {
+  font-size: 0.85rem;
+  text-align: center;
+  margin-top: 0.25rem;
+}
+</style>
