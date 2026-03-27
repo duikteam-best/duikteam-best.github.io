@@ -129,6 +129,9 @@ collections:
   portfolio:
     output: true
     permalink: /:collection/:path/
+  certifications:
+    output: true
+    permalink: /opleidingen/:path/
 
 # Defaults
 defaults:
@@ -188,6 +191,14 @@ defaults:
       layout: single
       author_profile: false
       share: true
+  # _certifications
+  - scope:
+      path: ""
+      type: certifications
+    values:
+      layout: single
+      author_profile: false
+      share: false
   # _portfolio
   - scope:
       path: ""

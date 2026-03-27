@@ -2,10 +2,10 @@
 main:
   - title: "Over ons"
     url: /over-ons/
-  - title: "Duikopleidingen"
-    url: /duikopleidingen/
+  - title: "Opleidingen"
+    url: /opleidingen/
   - title: "Duiken"
-    url: /dives/    
+    url: /duiklogs/
   - title: "Lid worden"
     url: /lid-worden/"
   - title: "Sample Posts"  

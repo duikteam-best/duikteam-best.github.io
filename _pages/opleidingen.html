@@ -1,0 +1,132 @@
+---
+layout: single
+title: "Opleidingen"
+permalink: /opleidingen/
+classes: wide
+header:
+  image: /assets/images/cropped-Rif-10.jpg
+---
+
+{% assign overview = site.data.certifications_overview %}
+{% assign certifications = site.data.certifications %}
+
+{% if overview.bodyHTML %}
+  <div class="certifications-intro">
+    {{ overview.bodyHTML }}
+  </div>
+{% endif %}
+
+{% if certifications and certifications.size > 0 %}
+  <div class="certifications-grid">
+    {% for cert in certifications %}
+      {% assign slug = cert.slug.current | default: cert._id %}
+      <div class="certification-card">
+        <div class="certification-card__image">
+          {% if cert.imageUrl %}
+            <img src="{{ cert.imageUrl }}" alt="{{ cert.title }}">
+          {% else %}
+            <img src="/assets/images/logo-duikteam-best.png" alt="{{ cert.title }}" class="certification-card__image--placeholder">
+          {% endif %}
+        </div>
+        <div class="certification-card__content">
+          {% if cert.level %}
+            <span class="certification-card__level">{{ cert.level }}</span>
+          {% endif %}
+          <h2 class="certification-card__title">{{ cert.title }}</h2>
+          {% if cert.descriptionHTML %}
+            <div class="certification-card__excerpt">
+              {{ cert.descriptionHTML | strip_html | truncatewords: 30 }}
+            </div>
+          {% endif %}
+          <a href="/opleidingen/{{ slug }}/" class="btn btn--primary certification-card__btn">Meer info</a>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+{% else %}
+  <p>Geen opleidingen gevonden. Kom binnenkort terug.</p>
+{% endif %}
+
+<style>
+.certifications-intro {
+  margin-bottom: 2.5rem;
+}
+
+.certifications-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 2rem;
+  margin-top: 1.5rem;
+}
+
+.certification-card {
+  border: 1px solid #e0e0e0;
+  border-radius: 8px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.07);
+  transition: box-shadow 0.2s ease, transform 0.2s ease;
+}
+
+.certification-card:hover {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.13);
+  transform: translateY(-2px);
+}
+
+.certification-card__image {
+  height: 200px;
+  overflow: hidden;
+  background: #f5f7fa;
+}
+
+.certification-card__image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.certification-card__image img.certification-card__image--placeholder {
+  object-fit: contain;
+  padding: 2rem;
+}
+
+.certification-card__content {
+  padding: 1.2rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.certification-card__level {
+  display: inline-block;
+  background: #0077b6;
+  color: #fff;
+  padding: 0.2rem 0.65rem;
+  border-radius: 4px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  width: fit-content;
+}
+
+.certification-card__title {
+  margin: 0.25rem 0 0;
+  font-size: 1.15rem;
+  line-height: 1.3;
+}
+
+.certification-card__excerpt {
+  flex: 1;
+  font-size: 0.92rem;
+  color: #555;
+  line-height: 1.5;
+}
+
+.certification-card__btn {
+  margin-top: 0.75rem;
+  align-self: flex-start;
+}
+</style>

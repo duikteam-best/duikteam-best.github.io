@@ -1,0 +1,16 @@
+import {StarFilledIcon} from '@sanity/icons'
+
+export default {
+  name: 'certification',
+  type: 'document',
+  title: 'Opleiding',
+  icon: StarFilledIcon,
+  fields: [
+    { name: 'title', type: 'string', title: 'Titel' },
+    { name: 'slug', type: 'slug', title: 'Slug', options: { source: 'title', maxLength: 200 } },
+    { name: 'level', type: 'string', title: 'Niveau' },
+    { name: 'description', type: 'array', title: 'Beschrijving', of: [{ type: 'block' }] },
+    { name: 'image', type: 'image', title: 'Afbeelding', options: { hotspot: true } },
+  ],
+  preview: { select: { title: 'title', subtitle: 'level', media: 'image' } },
+}
