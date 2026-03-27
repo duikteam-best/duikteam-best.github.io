@@ -57,10 +57,48 @@ async function fetchType(type) {
   });
 }
 
+async function fetchHomePage() {
+  const query = `*[_id == "homePage"][0]`;
+  const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  const json = await res.json();
+
+  const item = json.result;
+  if (!item) {
+    console.log('⚠️  No homePage document found in Sanity');
+    return null;
+  }
+
+  // Convert heroImage to URL
+  if (item.heroImage) {
+    item.heroImageUrl = getImageUrl(item.heroImage);
+  }
+
+  // Convert body Portable Text to HTML
+  if (item.body) {
+    item.bodyHTML = toHTML(item.body, {
+      block: (props) => `<p>${props.children.join('')}</p>`,
+      marks: {
+        strong: (text) => `<strong>${text}</strong>`,
+        em: (text) => `<em>${text}</em>`,
+        code: (text) => `<code>${text}</code>`
+      }
+    });
+  }
+
+  return item;
+}
+
 async function main() {
   const dives = await fetchType('dive');
   fs.writeFileSync('_data/dives.json', JSON.stringify(dives, null, 2));
   console.log('✅ Fetched and processed dives from Sanity!');
+
+  const homePage = await fetchHomePage();
+  if (homePage) {
+    fs.writeFileSync('_data/home_page.json', JSON.stringify(homePage, null, 2));
+    console.log('✅ Fetched homePage singleton from Sanity!');
+  }
 }
 
 main();

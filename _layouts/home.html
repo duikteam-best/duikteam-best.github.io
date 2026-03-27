@@ -1,0 +1,44 @@
+---
+layout: default
+---
+
+{% assign hp = site.data.home_page %}
+
+{% if hp.heroImageUrl %}
+  <div class="page__hero page__hero--overlay"
+    style="background-image: url('{{ hp.heroImageUrl }}');">
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        {{ hp.title | default: site.title }}
+      </h1>
+      {% if hp.subtitle %}
+        <p class="page__lead">{{ hp.subtitle }}</p>
+      {% endif %}
+    </div>
+  </div>
+{% else %}
+  <div class="page__hero">
+    <div class="wrapper">
+      <h1 id="page-title" class="page__title" itemprop="headline">
+        {{ hp.title | default: site.title }}
+      </h1>
+      {% if hp.subtitle %}
+        <p class="page__lead">{{ hp.subtitle }}</p>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}
+
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <section class="page__content cf" itemprop="text">
+
+      {% if hp.bodyHTML %}
+        {{ hp.bodyHTML }}
+      {% endif %}
+
+      {{ content }}
+
+    </section>
+  </article>
+</div>
