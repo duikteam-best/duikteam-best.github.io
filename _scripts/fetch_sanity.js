@@ -202,6 +202,31 @@ async function fetchCertifications() {
   });
 }
 
+async function fetchActivities() {
+  const query = `*[_type == "activity"] | order(date asc)`;
+  const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  const json = await res.json();
+
+  return json.result.map(item => {
+    if (item.featuredImage) {
+      item.featuredImage = {
+        url: getImageUrl(item.featuredImage),
+        alt: item.featuredImage.alt || '',
+        caption: item.featuredImage.caption || '',
+      };
+    }
+    if (item.gallery) {
+      item.gallery = item.gallery.map(img => ({
+        url: getImageUrl(img),
+        alt: img.alt || '',
+        caption: img.caption || '',
+      }));
+    }
+    return item;
+  });
+}
+
 async function main() {
   const divelogsOverview = await fetchDivelogsOverview();
   if (divelogsOverview) {
@@ -250,6 +275,10 @@ async function main() {
     fs.writeFileSync(`_certifications/${slug}.html`, content);
   }
   console.log(`✅ Generated ${certifications.length} certification detail pages in _certifications/`);
+
+  const activities = await fetchActivities();
+  fs.writeFileSync('_data/activities.json', JSON.stringify(activities, null, 2));
+  console.log(`✅ Fetched ${activities.length} activities from Sanity!`);
 }
 
 main();

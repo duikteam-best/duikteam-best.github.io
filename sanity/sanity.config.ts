@@ -1,8 +1,9 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
+import {googleMapsInput} from '@sanity/google-maps-input'
 import {schemaTypes} from './schemaTypes'
-import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon, ActivityIcon} from '@sanity/icons'
+import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon, ActivityIcon, CalendarIcon} from '@sanity/icons'
 
 const singletonTypes = new Set(['homePage', 'aboutUs', 'certifications', 'certification', 'divelogsOverview'])
 
@@ -14,6 +15,11 @@ export default defineConfig({
   dataset: 'production',
 
   plugins: [
+    googleMapsInput({
+      apiKey: process.env.SANITY_STUDIO_GOOGLE_MAPS_API_KEY!,
+      defaultLocation: {lat: 51.4965, lng: 5.4698}, // Best, Nederland
+      defaultZoom: 12,
+    }),
     structureTool({
       structure: (S) =>
         S.list()
@@ -83,9 +89,16 @@ export default defineConfig({
                     S.documentTypeListItem('dive').title('Duiklogs'),
                   ]),
               ),
+            S.listItem()
+              .title('Activiteiten')
+              .id('activities')
+              .icon(CalendarIcon)
+              .child(
+                S.documentTypeList('activity').title('Activiteiten'),
+              ),
             S.divider(),
             ...S.documentTypeListItems().filter(
-              (item) => !singletonTypes.has(item.getId() ?? ''),
+              (item) => !singletonTypes.has(item.getId() ?? '') && item.getId() !== 'activity',
             ),
           ]),
     }),
