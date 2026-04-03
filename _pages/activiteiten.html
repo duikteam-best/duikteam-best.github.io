@@ -12,12 +12,18 @@ author_profile: false
   {% assign grouped = activities | group_by_exp: "item", "item.date | date: '%Y-%m'" %}
   {% assign grouped_sorted = grouped | sort: "name" %}
 
+  {% assign nl_months_long = "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december" | split: "|" %}
+  {% assign nl_months_short = "jan|feb|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec" | split: "|" %}
+
   <div class="activities-timeline">
     {% for group in grouped_sorted %}
-      {% assign month_label = group.items[0].date | date: "%B %Y" %}
+      {% assign month_num = group.items[0].date | date: "%-m" | minus: 1 %}
+      {% assign month_nl = nl_months_long[month_num] %}
+      {% assign month_label = month_nl | append: " " | append: group.items[0].date | date: "%Y" | downcase %}
+      {% assign month_label_cap = month_nl | capitalize | append: " " | append: group.items[0].date | date: "%Y" %}
       <section class="activities-month">
         <h2 class="activities-month__heading">
-          <span class="activities-month__label">{{ month_label }}</span>
+          <span class="activities-month__label">{{ month_label_cap }}</span>
         </h2>
         <div class="activities-list">
           {% for activity in group.items %}
@@ -32,7 +38,8 @@ author_profile: false
               <div class="activity-card__body">
                 <div class="activity-card__date-badge">
                   <span class="activity-card__day">{{ activity.date | date: "%-d" }}</span>
-                  <span class="activity-card__month-short">{{ activity.date | date: "%b" }}</span>
+                  {% assign act_month_idx = activity.date | date: "%-m" | minus: 1 %}
+                  <span class="activity-card__month-short">{{ nl_months_short[act_month_idx] }}</span>
                 </div>
                 <div class="activity-card__content">
                   <h3 class="activity-card__title">{{ activity.title }}</h3>
