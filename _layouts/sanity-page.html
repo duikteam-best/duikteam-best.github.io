@@ -20,9 +20,8 @@ layout: default
     <section class="page__content cf" itemprop="text">
       {% if page_data.bodyHTML %}
         {{ page_data.bodyHTML }}
-      {% else %}
-        {{ content }}
       {% endif %}
+      {{ content }}
     </section>
   </article>
 </div>

@@ -209,6 +209,9 @@ async function fetchCertificationsOverview() {
     console.log('⚠️  No certifications overview document found in Sanity');
     return null;
   }
+  if (item.heroImage) {
+    item.heroImageUrl = getImageUrl(item.heroImage);
+  }
   if (item.body) {
     item.bodyHTML = portableTextToHTML(item.body);
   }

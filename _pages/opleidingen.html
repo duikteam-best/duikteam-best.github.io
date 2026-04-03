@@ -3,16 +3,10 @@ layout: sanity-page
 title: "Opleidingen"
 permalink: /opleidingen/
 classes: wide
+sanity_data: certifications_overview
 ---
 
-{% assign overview = site.data.certifications_overview %}
 {% assign certifications = site.data.certifications %}
-
-{% if overview.bodyHTML %}
-  <div class="certifications-intro">
-    {{ overview.bodyHTML }}
-  </div>
-{% endif %}
 
 {% if certifications and certifications.size > 0 %}
   <div class="certifications-grid">
