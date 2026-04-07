@@ -11,11 +11,117 @@ classes: wide
 </div>
 {% endif %}
 
-<form action="https://api.web3forms.com/submit" method="POST">
+<style>
+  .contact-form {
+    max-width: 640px;
+    margin: 2rem auto;
+    display: flex;
+    flex-direction: column;
+    gap: 1.25rem;
+  }
+  .contact-form .form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+  }
+  .contact-form label {
+    font-size: 0.875rem;
+    font-weight: 600;
+    color: #374151;
+  }
+  .contact-form input,
+  .contact-form textarea {
+    padding: 0.65rem 0.875rem;
+    border: 1px solid #d1d5db;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-family: inherit;
+    background: #fff;
+    transition: border-color 0.15s, box-shadow 0.15s;
+    outline: none;
+    width: 100%;
+    box-sizing: border-box;
+  }
+  .contact-form input:focus,
+  .contact-form textarea:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  }
+  .contact-form textarea {
+    min-height: 140px;
+    resize: vertical;
+  }
+  .contact-form .form-submit {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+  .contact-form button[type="submit"] {
+    padding: 0.7rem 2rem;
+    background: #3b82f6;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.15s, transform 0.1s;
+  }
+  .contact-form button[type="submit"]:hover {
+    background: #2563eb;
+  }
+  .contact-form button[type="submit"]:active {
+    transform: scale(0.98);
+  }
+  .contact-form .success-message {
+    display: none;
+    background: #ecfdf5;
+    color: #065f46;
+    border: 1px solid #6ee7b7;
+    border-radius: 8px;
+    padding: 0.75rem 1rem;
+    font-weight: 500;
+  }
+</style>
+
+<form action="https://api.web3forms.com/submit" method="POST" class="contact-form" id="contact-form">
   <input type="hidden" name="access_key" value="00e1d7e1-2043-463e-8cd9-b5216b12062b">
-  <input type="text" name="name" required>
-  <input type="email" name="email" required>
-  <textarea name="message" required></textarea>
-  <button type="submit">Versturen</button>
+  <input type="hidden" name="redirect" value="false">
+
+  <div class="form-group">
+    <label for="name">Naam</label>
+    <input type="text" id="name" name="name" placeholder="Jan de Vries" required>
+  </div>
+
+  <div class="form-group">
+    <label for="email">E-mailadres</label>
+    <input type="email" id="email" name="email" placeholder="jan@voorbeeld.nl" required>
+  </div>
+
+  <div class="form-group">
+    <label for="message">Bericht</label>
+    <textarea id="message" name="message" placeholder="Schrijf hier je bericht…" required></textarea>
+  </div>
+
   <div class="h-captcha" data-captcha="true"></div>
+
+  <div class="form-submit">
+    <button type="submit">Versturen</button>
+    <div class="success-message" id="success-message">Bedankt! Je bericht is verstuurd.</div>
+  </div>
 </form>
+
+<script>
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const form = e.target;
+    const data = new FormData(form);
+    const res = await fetch(form.action, { method: 'POST', body: data, headers: { 'Accept': 'application/json' } });
+    if (res.ok) {
+      form.reset();
+      document.getElementById('success-message').style.display = 'block';
+    }
+  });
+</script>
