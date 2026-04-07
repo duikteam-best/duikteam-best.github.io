@@ -1,13 +1,15 @@
 # main links
 main:
+  - title: "Over ons"
+    url: /over-ons/
+  - title: "Activiteiten"
+    url: /activiteiten/
   - title: "Opleidingen"
     url: /opleidingen/
   - title: "Duiken"
     url: /duiklogs/
-  - title: "Activiteiten"
-    url: /activiteiten/
-  - title: "Over ons"
-    url: /over-ons/
   - title: "Lid worden"
     url: /lid-worden/
+  - title: "Contact"
+    url: /contact/
 
