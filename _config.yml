@@ -52,10 +52,7 @@ author:
 
 # Site Footer
 footer:
-  links:
-    - label: "GitHub"
-      icon: "fab fa-fw fa-github"
-      url: "https://github.com/"
+  links: []
 
 after_footer_scripts:
   - https://web3forms.com/client/script.js
