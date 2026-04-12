@@ -26,7 +26,7 @@ sanity_data: certifications_overview
           <h2 class="certification-card__title">{{ cert.title }}</h2>
           {% if cert.descriptionHTML %}
             <div class="certification-card__excerpt">
-              {{ cert.descriptionHTML | strip_html | truncatewords: 30 }}
+              {{ cert.descriptionHTML | strip_html | truncatewords: 10 }}
             </div>
           {% endif %}
           <a href="/opleidingen/{{ slug }}/" class="btn btn--primary certification-card__btn">Meer info</a>
@@ -45,7 +45,7 @@ sanity_data: certifications_overview
 
 .certifications-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
   gap: 2rem;
   margin-top: 1.5rem;
 }
