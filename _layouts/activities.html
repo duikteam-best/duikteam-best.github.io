@@ -1,0 +1,27 @@
+---
+layout: default
+---
+
+{% assign overview = site.data.activities_overview %}
+
+{% if overview.heroImageUrl %}
+  <div class="hero-modern" style="background-image: url('{{ overview.heroImageUrl }}');">
+    <div class="hero-modern__content">
+      <h1 class="hero-modern__title">{{ overview.title | default: page.title }}</h1>
+    </div>
+    <div class="hero-modern__scroll-indicator" aria-hidden="true">
+      <span></span>
+    </div>
+  </div>
+{% endif %}
+
+<div id="main" role="main">
+  <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+    <section class="page__content cf" itemprop="text">
+      {% if overview.bodyHTML %}
+        <div class="activities-overview-intro">{{ overview.bodyHTML }}</div>
+      {% endif %}
+      {{ content }}
+    </section>
+  </article>
+</div>

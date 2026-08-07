@@ -6,8 +6,9 @@ import certifications from './certifications'
 import certification from './certification'
 import aboutUs from './aboutUs'
 import divelogsOverview from './divelogsOverview'
+import activitiesOverview from './activitiesOverview'
 import activity from './activity'
 import membershipPage from './membershipPage'
 import contactPage from './contactPage'
 
-export const schemaTypes = [homePage, aboutUs, membershipPage, contactPage, certifications, certification, divelogsOverview, dive, activity, privacyPolicy, recruitmentPolicy]
+export const schemaTypes = [homePage, aboutUs, membershipPage, contactPage, certifications, certification, divelogsOverview, activitiesOverview, dive, activity, privacyPolicy, recruitmentPolicy]

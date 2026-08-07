@@ -448,11 +448,36 @@ async function fetchRecruitmentPolicy() {
   return item;
 }
 
+async function fetchActivitiesOverview() {
+  const query = `*[_id == "activitiesOverview"][0]`;
+  const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  const json = await res.json();
+  const item = json.result;
+  if (!item) {
+    console.log('⚠️  No activitiesOverview document found in Sanity');
+    return null;
+  }
+  if (item.heroImage) {
+    item.heroImageUrl = getImageUrl(item.heroImage);
+  }
+  if (item.body) {
+    item.bodyHTML = portableTextToHTML(item.body);
+  }
+  return item;
+}
+
 async function main() {
   const divelogsOverview = await fetchDivelogsOverview();
   if (divelogsOverview) {
     fs.writeFileSync('_data/divelogs_overview.json', JSON.stringify(divelogsOverview, null, 2));
     console.log('✅ Fetched divelogsOverview singleton from Sanity!');
+  }
+
+  const activitiesOverview = await fetchActivitiesOverview();
+  if (activitiesOverview) {
+    fs.writeFileSync('_data/activities_overview.json', JSON.stringify(activitiesOverview, null, 2));
+    console.log('✅ Fetched activitiesOverview singleton from Sanity!');
   }
 
   const dives = await fetchDives();
