@@ -4,4 +4,10 @@
 <link rel="apple-touch-icon" sizes="180x180" href="/assets/images/apple-touch-icon.png" />
 <meta name="apple-mobile-web-app-title" content="Duikteam Best" />
 <link rel="manifest" href="/assets/images/site.webmanifest" />
-<style>p:empty { display: none; }</style>
+<style>
+/* margin-bottom bleeds across CSS column breaks; padding-bottom does not */
+.splash .page__content p {
+  margin-bottom: 0;
+  padding-bottom: 1.3em;
+}
+</style>
