@@ -51,6 +51,13 @@ $doc-font-size: 14;
   clear: both;
 }
 
+@media (min-width: 768px) {
+  .home-content {
+    columns: 2;
+    column-gap: 2em;
+  }
+}
+
 // Neutralise the negative left margin the theme applies inside .splash
 .splash .page__content p,
 .splash .page__content li,
