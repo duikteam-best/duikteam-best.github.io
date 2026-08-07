@@ -104,6 +104,7 @@ $doc-font-size: 14;
 // Modern cinematic hero
 .hero-modern {
   position: relative;
+  z-index: 1; // establishes stacking context below #main's z-index: 10
   min-height: 60vh;
   display: flex;
   align-items: end;
@@ -112,7 +113,7 @@ $doc-font-size: 14;
   background-position: center;
   background-attachment: fixed; // parallax
   overflow: hidden;
-  margin-bottom: 4em;
+  margin-bottom: 0;
 
   // gradient overlay: dark at top, fades to white at bottom
   &::before {
@@ -184,4 +185,14 @@ $doc-font-size: 14;
     background-attachment: scroll;
     min-height: 50vh;
   }
+}
+
+// Pull the content up so it overlaps the hero — z-index must beat the hero's positioned children
+.hero-modern + #main {
+  position: relative;
+  z-index: 10;
+  margin-top: -6rem;
+  background: #fff;
+  border-radius: 4px 4px 0 0;
+  padding-top: 2rem;
 }
