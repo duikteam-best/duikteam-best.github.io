@@ -5,7 +5,7 @@ layout: default
 {% assign hp = site.data.home_page %}
 
 {% if hp.heroImageUrl %}
-  <div class="hero-modern" style="background-image: url('{{ hp.heroImageUrl }}');">
+  <div class="hero-modern hero-modern--has-subtitle" style="background-image: url('{{ hp.heroImageUrl }}');">
     <div class="hero-modern__content">
       <h1 id="page-title" class="hero-modern__title" itemprop="headline">
         {{ hp.title | default: site.title }}

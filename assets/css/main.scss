@@ -142,6 +142,10 @@ $doc-font-size: 14;
     border-radius: 8px;
     max-width: 700px;
     width: 90%;
+    margin-bottom: 15vh;
+  }
+
+  &--has-subtitle &__content {
     margin-bottom: 10vh;
   }
 
