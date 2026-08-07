@@ -104,14 +104,15 @@ $doc-font-size: 14;
 // Modern cinematic hero
 .hero-modern {
   position: relative;
-  min-height: 70vh;
+  min-height: 60vh;
   display: flex;
-  align-items: center;
+  align-items: end;
   justify-content: center;
   background-size: cover;
   background-position: center;
   background-attachment: fixed; // parallax
   overflow: hidden;
+  margin-bottom: 4em;
 
   // gradient overlay: dark at top, fades to white at bottom
   &::before {
@@ -131,7 +132,7 @@ $doc-font-size: 14;
     position: relative;
     z-index: 2;
     text-align: center;
-    padding: 2rem 1.5rem;
+    padding: 1rem 1.5rem;
     // frosted glass card
     background: rgba(255, 255, 255, 0.12);
     backdrop-filter: blur(8px);
@@ -140,6 +141,7 @@ $doc-font-size: 14;
     border-radius: 8px;
     max-width: 700px;
     width: 90%;
+    margin-bottom: 40vh;
   }
 
   &__title {
