@@ -58,6 +58,18 @@ $doc-font-size: 14;
   }
 }
 
+.page__footer-copyright {
+  a {
+    color: #d9d9d9;
+    text-decoration: underline;
+    text-underline-offset: 2px;
+
+    &:hover {
+      color: #fff;
+    }
+  }
+}
+
 // Neutralise the negative left margin the theme applies inside .splash
 .splash .page__content p,
 .splash .page__content li,
