@@ -241,6 +241,9 @@ async function fetchDivelogsOverview() {
     console.log('⚠️  No divelogsOverview document found in Sanity');
     return null;
   }
+  if (item.heroImage) {
+    item.heroImageUrl = getImageUrl(item.heroImage);
+  }
   if (item.body) {
     item.bodyHTML = portableTextToHTML(item.body);
   }
