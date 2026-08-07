@@ -252,8 +252,8 @@ tag_archive:
   path: /tags/
 
 # Search
-search: true
-search_full_content: true
+search: false
+search_full_content: false
 lunr:
   search_within_pages: true
 
