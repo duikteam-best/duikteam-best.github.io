@@ -105,7 +105,7 @@ $doc-font-size: 14;
 .hero-modern {
   position: relative;
   z-index: 1; // establishes stacking context below #main's z-index: 10
-  min-height: 60vh;
+  min-height: 30vh;
   display: flex;
   align-items: end;
   justify-content: center;
@@ -113,7 +113,7 @@ $doc-font-size: 14;
   background-position: center;
   background-attachment: fixed; // parallax
   overflow: hidden;
-  margin-bottom: 0;
+  margin-bottom: 4em;
 
   // gradient overlay: dark at top, fades to white at bottom
   &::before {
@@ -142,13 +142,14 @@ $doc-font-size: 14;
     border-radius: 8px;
     max-width: 700px;
     width: 90%;
-    margin-bottom: 40vh;
+    margin-bottom: 15vh;
   }
 
   &__title {
     margin: 0;
     color: #fff;
-    font-size: clamp(1.8rem, 5vw, 3.2rem);
+    //font-size: clamp(1.8rem, 5vw, 3.2rem);
+    clamp(1.2rem, 3vw, 2rem);
     font-weight: 300;
     letter-spacing: 0.06em;
     text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
@@ -191,8 +192,7 @@ $doc-font-size: 14;
 .hero-modern + #main {
   position: relative;
   z-index: 10;
-  margin-top: -6rem;
-  background: #fff;
+  margin-top: 2rem;
   border-radius: 4px 4px 0 0;
   padding-top: 2rem;
 }
