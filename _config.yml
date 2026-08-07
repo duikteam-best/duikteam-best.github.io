@@ -52,7 +52,13 @@ author:
 
 # Site Footer
 footer:
-  links: []
+  links:
+    - label: "Facebook"
+      icon: "fab fa-fw fa-facebook"
+      url: "https://www.facebook.com/people/Duikteam-Best/100063044451929/"
+    - label: "Instagram"
+      icon: "fab fa-fw fa-instagram"
+      url: "https://www.instagram.com/duikteam_best/"
 
 after_footer_scripts:
   - https://web3forms.com/client/script.js

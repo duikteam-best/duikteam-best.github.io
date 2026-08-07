@@ -4,7 +4,7 @@ import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon, ActivityIcon, CalendarIcon, UsersIcon, EnvelopeIcon, DocumentIcon} from '@sanity/icons'
 
-const singletonTypes = new Set(['homePage', 'aboutUs', 'membershipPage', 'contactPage', 'certifications', 'certification', 'divelogsOverview', 'privacyPolicy', 'recruitmentPolicy'])
+const singletonTypes = new Set(['homePage', 'aboutUs', 'membershipPage', 'contactPage', 'certifications', 'certification', 'divelogsOverview', 'activitiesOverview', 'privacyPolicy', 'recruitmentPolicy'])
 
 export default defineConfig({
   name: 'default',
@@ -108,7 +108,22 @@ export default defineConfig({
               .id('activities')
               .icon(CalendarIcon)
               .child(
-                S.documentTypeList('activity').title('Activiteiten'),
+                S.list()
+                  .title('Activiteiten')
+                  .items([
+                    S.listItem()
+                      .title('Overzichtspagina')
+                      .id('activitiesOverview')
+                      .icon(CalendarIcon)
+                      .child(
+                        S.document()
+                          .schemaType('activitiesOverview')
+                          .documentId('activitiesOverview')
+                          .title('Overzichtspagina'),
+                      ),
+                    S.divider(),
+                    S.documentTypeListItem('activity').title('Activiteiten'),
+                  ]),
               ),
             S.listItem()
               .title('Privacybeleid')
