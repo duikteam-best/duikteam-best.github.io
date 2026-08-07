@@ -413,6 +413,38 @@ async function fetchActivities() {
   });
 }
 
+async function fetchPrivacyPolicy() {
+  const query = `*[_id == "privacy-policy"][0]`;
+  const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  const json = await res.json();
+  const item = json.result;
+  if (!item) {
+    console.log('⚠️  No privacy-policy document found in Sanity');
+    return null;
+  }
+  if (item.body) {
+    item.bodyHTML = portableTextToHTML(item.body);
+  }
+  return item;
+}
+
+async function fetchRecruitmentPolicy() {
+  const query = `*[_id == "recruitment-policy"][0]`;
+  const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
+  const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  const json = await res.json();
+  const item = json.result;
+  if (!item) {
+    console.log('⚠️  No recruitment-policy document found in Sanity');
+    return null;
+  }
+  if (item.body) {
+    item.bodyHTML = portableTextToHTML(item.body);
+  }
+  return item;
+}
+
 async function main() {
   const divelogsOverview = await fetchDivelogsOverview();
   if (divelogsOverview) {
@@ -477,6 +509,18 @@ async function main() {
   const activities = await fetchActivities();
   fs.writeFileSync('_data/activities.json', JSON.stringify(activities, null, 2));
   console.log(`✅ Fetched ${activities.length} activities from Sanity!`);
+
+  const privacyPolicy = await fetchPrivacyPolicy();
+  if (privacyPolicy) {
+    fs.writeFileSync('_data/privacy_policy.json', JSON.stringify(privacyPolicy, null, 2));
+    console.log('✅ Fetched privacy-policy singleton from Sanity!');
+  }
+
+  const recruitmentPolicy = await fetchRecruitmentPolicy();
+  if (recruitmentPolicy) {
+    fs.writeFileSync('_data/recruitment_policy.json', JSON.stringify(recruitmentPolicy, null, 2));
+    console.log('✅ Fetched recruitment-policy singleton from Sanity!');
+  }
 
   writeSanitySearchDocs({
     homePage,

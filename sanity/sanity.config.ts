@@ -3,9 +3,9 @@ import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
 import {googleMapsInput} from '@sanity/google-maps-input'
 import {schemaTypes} from './schemaTypes'
-import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon, ActivityIcon, CalendarIcon, UsersIcon, EnvelopeIcon} from '@sanity/icons'
+import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon, ActivityIcon, CalendarIcon, UsersIcon, EnvelopeIcon, DocumentIcon} from '@sanity/icons'
 
-const singletonTypes = new Set(['homePage', 'aboutUs', 'membershipPage', 'contactPage', 'certifications', 'certification', 'divelogsOverview'])
+const singletonTypes = new Set(['homePage', 'aboutUs', 'membershipPage', 'contactPage', 'certifications', 'certification', 'divelogsOverview', 'privacyPolicy', 'recruitmentPolicy'])
 
 export default defineConfig({
   name: 'default',
@@ -116,10 +116,26 @@ export default defineConfig({
               .child(
                 S.documentTypeList('activity').title('Activiteiten'),
               ),
-            S.divider(),
-            ...S.documentTypeListItems().filter(
-              (item) => !singletonTypes.has(item.getId() ?? '') && item.getId() !== 'activity',
-            ),
+            S.listItem()
+              .title('Privacybeleid')
+              .id('privacyPolicy')
+              .icon(DocumentIcon)
+              .child(
+                S.document()
+                  .schemaType('privacyPolicy')
+                  .documentId('privacy-policy')
+                  .title('Privacybeleid'),
+              ),
+            S.listItem()
+              .title('Aannamebeleid Instructeurs')
+              .id('recruitmentPolicy')
+              .icon(DocumentIcon)
+              .child(
+                S.document()
+                  .schemaType('recruitmentPolicy')
+                  .documentId('recruitment-policy')
+                  .title('Aannamebeleid Instructeurs'),
+              ),
           ]),
     }),
     visionTool(),
