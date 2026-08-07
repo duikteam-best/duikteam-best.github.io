@@ -6,11 +6,11 @@ export default {
   title: 'Dive',
   icon: ActivityIcon,
   fields: [
-    { name: 'title', type: 'string', title: 'Dive Name / Title' },
+    { name: 'title', type: 'string', title: 'Duik Naam / Titel' },
     { name: 'slug', type: 'slug', title: 'Slug', options: { source: 'title', maxLength: 200 } },
-    { name: 'date', type: 'datetime', title: 'Dive Date' },
-    { name: 'location', type: 'string', title: 'Location' },
-    { name: 'description', type: 'array', title: 'Description', of: [
+    { name: 'date', type: 'datetime', title: 'Datum' },
+    { name: 'location', type: 'string', title: 'Locatie' },
+    { name: 'description', type: 'array', title: 'Omschrijving', of: [
       { type: 'block' },
       { type: 'image', options: { hotspot: true }, fields: [
         { name: 'caption', type: 'string', title: 'Bijschrift' },
@@ -22,7 +22,7 @@ export default {
         ], layout: 'radio' }, initialValue: 'center' },
       ]},
     ]},
-    { name: 'photos', type: 'array', title: 'Photos', of: [{ type: 'image' }] }
+    { name: 'photos', type: 'array', title: 'Foto`s', of: [{ type: 'image' }] }
   ],
   preview: { select: { title: 'title', subtitle: 'location', media: 'photos.0' } }
 }
