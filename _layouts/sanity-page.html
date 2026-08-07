@@ -13,8 +13,27 @@ layout: default
       </h1>
     </div>
   </div>
+{% else %}
+  <div id="main" role="main">
+    <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
+      <div class="page__inner-wrap">
+        <header>
+          <h1 id="page-title" class="page__title" itemprop="headline">
+            {{ page_data.title | default: page.title }}
+          </h1>
+        </header>
+        <section class="page__content cf" itemprop="text">
+          {% if page_data.bodyHTML %}
+            {{ page_data.bodyHTML }}
+          {% endif %}
+          {{ content }}
+        </section>
+      </div>
+    </article>
+  </div>
 {% endif %}
 
+{% if page_data.heroImageUrl %}
 <div id="main" role="main">
   <article class="page" itemscope itemtype="https://schema.org/CreativeWork">
     <section class="page__content cf" itemprop="text">
@@ -25,3 +44,4 @@ layout: default
     </section>
   </article>
 </div>
+{% endif %}
