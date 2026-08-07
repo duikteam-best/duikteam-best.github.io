@@ -110,7 +110,8 @@ $doc-font-size: 14;
   align-items: end;
   justify-content: center;
   background-size: cover;
-  background-position: center center;
+  background-position: center;
+  background-attachment: fixed; // parallax
   overflow: hidden;
   margin-bottom: 4em;
 
@@ -192,7 +193,12 @@ $doc-font-size: 14;
   50%       { transform: rotate(45deg) translateY(6px); opacity: 0.5; }
 }
 
-
+// On mobile, parallax can feel janky — disable it
+@media (max-width: 768px) {
+  .hero-modern {
+    background-attachment: scroll;
+  }
+}
 
 // Pull the content up so it overlaps the hero — z-index must beat the hero's positioned children
 .hero-modern + #main {

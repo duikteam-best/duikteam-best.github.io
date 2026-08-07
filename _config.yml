@@ -260,7 +260,6 @@ lunr:
 # Custom scripts loaded after main.min.js
 after_footer_scripts:
   - /assets/js/greedy-nav-override.js
-  - /assets/js/hero-parallax.js
 
 # HTML Compression
 compress_html:
