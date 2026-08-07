@@ -51,6 +51,14 @@ $doc-font-size: 14;
   clear: both;
 }
 
+// Neutralise the negative left margin the theme applies inside .splash
+.splash .page__content p,
+.splash .page__content li,
+.splash .page__content dl {
+  margin-left: 0;
+  margin-right: 0;
+}
+
 // Fix: wide pages without a sidebar leave a 200-300px gap on the left because
 // Minimal Mistakes reserves that space for the author-profile sidebar.
 // Override to full width so the content is truly centered.
