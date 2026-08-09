@@ -242,9 +242,15 @@ $doc-font-size: 14;
     filter 0.18s ease, background-color 0.18s ease;
 }
 
+.masthead__cta,
+.masthead__cta:visited,
 .masthead__cta:hover,
 .masthead__cta:focus {
   color: #fff;
+}
+
+.masthead__cta:hover,
+.masthead__cta:focus {
   transform: translateY(-1px);
   box-shadow: 0 10px 22px rgba(16, 174, 185, 0.32);
   filter: brightness(1.02);
