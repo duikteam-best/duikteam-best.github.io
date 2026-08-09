@@ -105,8 +105,8 @@ $doc-font-size: 14;
 .home-hero {
   position: relative;
   display: flex;
-  align-items: flex-end;
-  min-height: clamp(34rem, 78vh, 58rem);
+  align-items: center;
+  min-height: clamp(26rem, 58vh, 43rem);
   overflow: hidden;
   background-color: #041b24;
   background-image:
@@ -137,9 +137,10 @@ $doc-font-size: 14;
     z-index: 1;
     width: 100%;
     max-width: 74rem;
-    padding-top: 6rem;
-    padding-bottom: 4.5rem;
+    padding-top: 2rem;
+    padding-bottom: 2rem;
     color: #fff;
+    text-align: center;
   }
 
   &__title {
@@ -228,12 +229,12 @@ $doc-font-size: 14;
 
 @media (max-width: 768px) {
   .home-hero {
-    min-height: 30rem;
+    min-height: 22.5rem;
     background-attachment: scroll;
 
     &__content {
-      padding-top: 4rem;
-      padding-bottom: 3rem;
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
     }
 
     &__title {
@@ -258,7 +259,7 @@ $doc-font-size: 14;
 .hero-modern {
   position: relative;
   z-index: 1; // establishes stacking context below #main's z-index: 10
-  min-height: 30vh;
+  min-height: 34vh;
   display: flex;
   align-items: end;
   justify-content: center;
@@ -351,14 +352,6 @@ $doc-font-size: 14;
   .hero-modern {
     background-attachment: scroll;
   }
-}
-
-// Pull the content up so it overlaps the hero — z-index must beat the hero's positioned children
-.hero-modern + #main {
-  position: relative;
-  z-index: 10;
-  margin-top: 2rem;
-  border-radius: 4px 4px 0 0;
 }
 
 // Main masthead layout tweaks to separate the CTA from the menu links.
