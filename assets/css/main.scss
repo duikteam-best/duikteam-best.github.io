@@ -302,9 +302,11 @@ $doc-font-size: 14;
   &__content {
     position: relative;
     z-index: 1;
-    width: min($max-width, calc(100% - 2em));
+    width: 100%;
+    max-width: $max-width;
     margin-inline: auto;
-    padding: clamp(2rem, 4.5vw, 3.5rem) 0 clamp(2rem, 4vw, 3rem);
+    padding-block: clamp(2rem, 4.5vw, 3.5rem) clamp(2rem, 4vw, 3rem);
+    padding-inline: 1em;
     color: #fff;
     text-align: left;
   }
@@ -336,7 +338,6 @@ $doc-font-size: 14;
     min-height: 18rem;
 
     &__content {
-      width: calc(100% - 2em);
       padding-top: 1.75rem;
       padding-bottom: 2rem;
     }
@@ -348,7 +349,6 @@ $doc-font-size: 14;
     min-height: 15rem;
 
     &__content {
-      width: calc(100% - 1.5em);
       padding-top: 1.5rem;
       padding-bottom: 1.5rem;
     }
