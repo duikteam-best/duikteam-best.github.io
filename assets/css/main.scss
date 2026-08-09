@@ -136,11 +136,13 @@ $doc-font-size: 14;
     position: relative;
     z-index: 1;
     width: 100%;
-    max-width: 74rem;
+    max-width: $max-width;
     padding-top: 2rem;
     padding-bottom: 2rem;
+    padding-inline: 1em;
+    margin-inline: auto;
     color: #fff;
-    text-align: center;
+    text-align: left;
   }
 
   &__title {
@@ -243,6 +245,10 @@ $doc-font-size: 14;
   }
 }
 
+.home-content {
+  margin-top: 2.5rem;
+}
+
 @media (max-width: 520px) {
   .home-hero {
     &__actions {
@@ -252,6 +258,10 @@ $doc-font-size: 14;
     &__button {
       width: 100%;
     }
+  }
+
+  .home-content {
+    margin-top: 2rem;
   }
 }
 
