@@ -269,99 +269,97 @@ $doc-font-size: 14;
 .hero-modern {
   position: relative;
   z-index: 1; // establishes stacking context below #main's z-index: 10
-  min-height: 34vh;
   display: flex;
-  align-items: end;
-  justify-content: center;
-  background-size: cover;
-  background-position: center;
-  background-attachment: fixed; // parallax
+  align-items: center;
+  justify-content: flex-start;
+  min-height: clamp(16rem, 28vw, 24rem);
+  margin-bottom: 0;
   overflow: hidden;
-  margin-bottom: 4em;
+  background-color: #081720;
+  background-size: cover;
+  background-position: center center;
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  isolation: isolate;
 
-  // gradient overlay: dark at top, fades to white at bottom
   &::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      to bottom,
-      rgba(0, 0, 0, 0.50) 0%,
-      rgba(0, 0, 0, 0.25) 20%,
-      rgba(255, 255, 255, 1) 100%
-    );
-    z-index: 1;
+    background:
+      linear-gradient(
+        180deg,
+        rgba(1, 11, 16, 0.20) 0%,
+        rgba(1, 11, 16, 0.48) 55%,
+        rgba(1, 11, 16, 0.76) 100%
+      ),
+      linear-gradient(115deg, rgba(255, 255, 255, 0.04), transparent 30%),
+      linear-gradient(75deg, rgba(24, 193, 207, 0.08), transparent 38%);
+    z-index: 0;
+    pointer-events: none;
   }
 
   &__content {
     position: relative;
-    z-index: 2;
-    text-align: center;
-    padding: 1rem 1.5rem;
-    // frosted glass card
-    background: rgba(255, 255, 255, 0.12);
-    backdrop-filter: blur(8px);
-    -webkit-backdrop-filter: blur(8px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    border-radius: 8px;
-    max-width: 700px;
-    width: 90%;
-    margin-bottom: 15vh;
-  }
-
-  &--has-subtitle &__content {
-    margin-bottom: 10vh;
+    z-index: 1;
+    width: min($max-width, calc(100% - 2em));
+    margin-inline: auto;
+    padding: clamp(2rem, 4.5vw, 3.5rem) 0 clamp(2rem, 4vw, 3rem);
+    color: #fff;
+    text-align: left;
   }
 
   &__title {
+    max-width: 12ch;
     margin: 0;
     color: #fff;
-    //font-size: clamp(1.8rem, 5vw, 3.2rem);
-    font-size: clamp(1.2rem, 3vw, 2rem);
-    font-weight: 300;
-    letter-spacing: 0.06em;
-    text-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+    font-size: clamp(2.15rem, 4.2vw, 4rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.05em;
+    text-wrap: balance;
+    text-shadow: 0 12px 30px rgba(0, 0, 0, 0.35);
   }
 
   &__subtitle {
-    margin: 0.5rem 0 0;
-    color: rgba(255, 255, 255, 0.88);
-    font-size: clamp(0.9rem, 2vw, 1.2rem);
-    font-weight: 300;
-    letter-spacing: 0.04em;
-    text-shadow: 0 1px 8px rgba(0, 0, 0, 0.4);
+    max-width: 34rem;
+    margin: 1rem 0 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: clamp(1rem, 1.25vw, 1.15rem);
+    line-height: 1.55;
+    text-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
   }
+}
 
-  // animated scroll chevron
-  &__scroll-indicator {
-    position: absolute;
-    bottom: 1.8rem;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 2;
+@media (max-width: 900px) {
+  .hero-modern {
+    min-height: 18rem;
 
-    span {
-      display: block;
-      width: 24px;
-      height: 24px;
-      border-right: 2px solid rgba(255, 255, 255, 0.85);
-      border-bottom: 2px solid rgba(255, 255, 255, 0.85);
-      transform: rotate(45deg);
-      animation: hero-scroll-bounce 1.4s ease-in-out infinite;
+    &__content {
+      width: calc(100% - 2em);
+      padding-top: 1.75rem;
+      padding-bottom: 2rem;
     }
   }
 }
 
-@keyframes hero-scroll-bounce {
-  0%, 100% { transform: rotate(45deg) translateY(0); opacity: 1; }
-  50%       { transform: rotate(45deg) translateY(6px); opacity: 0.5; }
+@media (max-width: 680px) {
+  .hero-modern {
+    min-height: 15rem;
+
+    &__content {
+      width: calc(100% - 1.5em);
+      padding-top: 1.5rem;
+      padding-bottom: 1.5rem;
+    }
+  }
 }
 
-// On mobile, parallax can feel janky — disable it
-@media (max-width: 768px) {
-  .hero-modern {
-    background-attachment: scroll;
-  }
+// Pull the page content away from the hero a bit more on non-home pages.
+.hero-modern + #main {
+  position: relative;
+  z-index: 10;
+  margin-top: 3rem;
 }
 
 // Main masthead layout tweaks to separate the CTA from the menu links.
