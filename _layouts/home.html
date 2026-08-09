@@ -36,19 +36,57 @@ layout: default
   </div>
 {% endif %}
 
+{% assign upcoming_activities = site.data.activities | slice: 0, 3 %}
+{% assign nl_months_short = "jan|feb|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec" | split: "|" %}
+
 <section class="home-band" aria-labelledby="home-band-title">
   <div class="home-band__inner wrapper">
-    <div class="home-band__copy">
+    <div class="home-band__intro">
       <p class="home-band__eyebrow">Binnenkort onder water</p>
       <h2 id="home-band-title" class="home-band__title">Duiken, trainen en gezellig samen zijn</h2>
       <p class="home-band__text">
         We duiken het hele jaar door. Van zwembadtraining tot buitenwaterduiken en
         leuke activiteiten, er is altijd iets om naar uit te kijken.
       </p>
+      <a class="home-band__link" href="{{ '/activiteiten/' | relative_url }}">
+        Bekijk alle activiteiten →
+      </a>
     </div>
-    <a class="home-band__link" href="{{ '/activiteiten/' | relative_url }}">
-      Bekijk alle activiteiten →
-    </a>
+
+    {% if upcoming_activities and upcoming_activities.size > 0 %}
+      <div class="home-band__activities" aria-label="Drie eerstvolgende activiteiten">
+        {% for activity in upcoming_activities %}
+          <article class="home-band-card">
+            <div class="home-band-card__image">
+              {% if activity.featuredImage.url %}
+                <img src="{{ activity.featuredImage.url }}" alt="{{ activity.featuredImage.alt | default: activity.title }}" loading="lazy">
+              {% else %}
+                <div class="home-band-card__image-fallback"></div>
+              {% endif %}
+              <div class="home-band-card__date" aria-hidden="true">
+                <span class="home-band-card__day">{{ activity.date | date: "%-d" }}</span>
+                {% assign act_month_idx = activity.date | date: "%-m" | minus: 1 %}
+                <span class="home-band-card__month">{{ nl_months_short[act_month_idx] }}</span>
+              </div>
+            </div>
+            <div class="home-band-card__content">
+              <h3 class="home-band-card__title">{{ activity.title }}</h3>
+              {% assign activity_time = activity.date | date: "%H:%M" %}
+              {% if activity_time != "00:00" %}
+                <p class="home-band-card__meta">{{ activity_time }}</p>
+              {% endif %}
+              {% if activity.location and activity.location.name %}
+                <p class="home-band-card__meta">{{ activity.location.name }}</p>
+              {% endif %}
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    {% else %}
+      <div class="home-band__empty">
+        De eerstvolgende activiteiten worden binnenkort geladen.
+      </div>
+    {% endif %}
   </div>
 </section>
 
