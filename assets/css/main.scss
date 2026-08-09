@@ -98,6 +98,19 @@ $doc-font-size: 14;
     width: 100%;
     padding-inline-end: 0;
   }
+
+  .page--hero-full .page__inner-wrap {
+    float: none;
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .page--hero-full .page__content {
+    width: 100%;
+    max-width: $max-width;
+    margin-inline: auto;
+    padding-inline: 1em;
+  }
 }
 
 @media (min-width: 1280px) {
