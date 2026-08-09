@@ -39,6 +39,20 @@ layout: default
 {% assign upcoming_activities = site.data.activities | slice: 0, 3 %}
 {% assign nl_months_short = "jan|feb|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec" | split: "|" %}
 
+<div id="main" role="main">
+  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
+    <section class="page__content cf home-content" itemprop="text">
+
+      {% if hp.bodyHTML %}
+        {{ hp.bodyHTML }}
+      {% endif %}
+
+      {{ content }}
+
+    </section>
+  </article>
+</div>
+
 <section class="home-band" aria-labelledby="home-band-title">
   <div class="home-band__inner wrapper">
     <div class="home-band__intro">
@@ -89,17 +103,3 @@ layout: default
     {% endif %}
   </div>
 </section>
-
-<div id="main" role="main">
-  <article class="splash" itemscope itemtype="https://schema.org/CreativeWork">
-    <section class="page__content cf home-content" itemprop="text">
-
-      {% if hp.bodyHTML %}
-        {{ hp.bodyHTML }}
-      {% endif %}
-
-      {{ content }}
-
-    </section>
-  </article>
-</div>
