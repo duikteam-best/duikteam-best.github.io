@@ -101,6 +101,159 @@ $doc-font-size: 14;
   }
 }
 
+// Home hero with large image, headline and CTAs.
+.home-hero {
+  position: relative;
+  display: flex;
+  align-items: flex-end;
+  min-height: clamp(34rem, 78vh, 58rem);
+  overflow: hidden;
+  background-color: #041b24;
+  background-image:
+    linear-gradient(
+      to bottom,
+      rgba(1, 12, 18, 0.28) 0%,
+      rgba(1, 12, 18, 0.48) 40%,
+      rgba(1, 12, 18, 0.84) 100%
+    ),
+    var(--home-hero-image);
+  background-position: center center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  margin-bottom: 0;
+  isolation: isolate;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: auto 0 0;
+    height: 7rem;
+    background: linear-gradient(to bottom, rgba(4, 27, 36, 0), rgba(4, 27, 36, 0.55));
+    pointer-events: none;
+  }
+
+  &__content {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 74rem;
+    padding-top: 6rem;
+    padding-bottom: 4.5rem;
+    color: #fff;
+  }
+
+  &__title {
+    max-width: 13ch;
+    margin: 0;
+    color: #fff;
+    font-size: clamp(2.6rem, 6vw, 5.3rem);
+    font-weight: 800;
+    line-height: 0.96;
+    letter-spacing: -0.04em;
+    text-wrap: balance;
+    text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+  }
+
+  &__subtitle {
+    max-width: 34rem;
+    margin: 1.4rem 0 0;
+    color: rgba(255, 255, 255, 0.92);
+    font-size: clamp(1.05rem, 1.55vw, 1.25rem);
+    line-height: 1.55;
+    text-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+  }
+
+  &__actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.9rem;
+    margin-top: 2rem;
+  }
+
+  &__button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 3rem;
+    padding: 0.8rem 1.3rem;
+    border-radius: 0.5rem;
+    border: 1px solid transparent;
+    font-family: $sans-serif-narrow;
+    font-size: 0.98rem;
+    font-weight: 700;
+    text-decoration: none;
+    transition: transform 0.18s ease, box-shadow 0.18s ease,
+      background-color 0.18s ease, border-color 0.18s ease;
+
+    &:hover,
+    &:focus {
+      transform: translateY(-1px);
+    }
+
+    &:visited {
+      color: inherit;
+    }
+  }
+
+  &__button--primary,
+  &__button--primary:visited {
+    color: #fff;
+    background: linear-gradient(180deg, #22ceda 0%, #17b9c6 100%);
+    box-shadow: 0 10px 20px rgba(12, 172, 185, 0.28);
+  }
+
+  &__button--primary:hover,
+  &__button--primary:focus {
+    color: #fff;
+    box-shadow: 0 12px 24px rgba(12, 172, 185, 0.36);
+  }
+
+  &__button--secondary,
+  &__button--secondary:visited {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.5);
+    background: rgba(6, 18, 24, 0.28);
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  &__button--secondary:hover,
+  &__button--secondary:focus {
+    color: #fff;
+    border-color: rgba(255, 255, 255, 0.82);
+    background: rgba(6, 18, 24, 0.36);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.16);
+  }
+}
+
+@media (max-width: 768px) {
+  .home-hero {
+    min-height: 30rem;
+    background-attachment: scroll;
+
+    &__content {
+      padding-top: 4rem;
+      padding-bottom: 3rem;
+    }
+
+    &__title {
+      max-width: 12ch;
+    }
+  }
+}
+
+@media (max-width: 520px) {
+  .home-hero {
+    &__actions {
+      gap: 0.7rem;
+    }
+
+    &__button {
+      width: 100%;
+    }
+  }
+}
+
 // Modern cinematic hero
 .hero-modern {
   position: relative;

@@ -5,17 +5,22 @@ layout: default
 {% assign hp = site.data.home_page %}
 
 {% if hp.heroImageUrl %}
-  <div class="hero-modern hero-modern--has-subtitle" style="background-image: url('{{ hp.heroImageUrl }}');">
-    <div class="hero-modern__content">
-      <h1 id="page-title" class="hero-modern__title" itemprop="headline">
-        {{ hp.title | default: site.title }}
+  <div class="home-hero" style="--home-hero-image: url('{{ hp.heroImageUrl }}');">
+    <div class="home-hero__content wrapper">
+      <h1 id="page-title" class="home-hero__title" itemprop="headline">
+        {{ hp.title | default: "Samen veilig onder water" }}
       </h1>
-      {% if hp.subtitle %}
-        <p class="hero-modern__subtitle">{{ hp.subtitle }}</p>
-      {% endif %}
-    </div>
-    <div class="hero-modern__scroll-indicator" aria-hidden="true">
-      <span></span>
+      <p class="home-hero__subtitle">
+        {{ hp.subtitle | default: "Duikteam Best is een actieve duikvereniging voor beginnende én ervaren duikers." }}
+      </p>
+      <div class="home-hero__actions">
+        <a class="home-hero__button home-hero__button--primary" href="{{ '/over-ons/' | relative_url }}">
+          Kom kennismaken
+        </a>
+        <a class="home-hero__button home-hero__button--secondary" href="{{ '/activiteiten/' | relative_url }}">
+          Bekijk activiteiten
+        </a>
+      </div>
     </div>
   </div>
 {% else %}
