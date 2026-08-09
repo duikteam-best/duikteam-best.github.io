@@ -92,6 +92,20 @@ $doc-font-size: 14;
   }
 }
 
+@media (min-width: 1024px) {
+  .page--hero-full {
+    float: none;
+    width: 100%;
+    padding-inline-end: 0;
+  }
+}
+
+@media (min-width: 1280px) {
+  .page--hero-full {
+    width: 100%;
+  }
+}
+
 @media (max-width: 600px) {
   .body-image--right,
   .body-image--left {
