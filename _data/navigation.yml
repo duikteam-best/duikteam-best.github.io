@@ -8,8 +8,7 @@ main:
     url: /opleidingen/
   - title: "Duiken"
     url: /duiklogs/
-  - title: "Lid worden"
-    url: /lid-worden/
   - title: "Contact"
     url: /contact/
-
+  - title: "Lid worden"
+    url: /lid-worden/
