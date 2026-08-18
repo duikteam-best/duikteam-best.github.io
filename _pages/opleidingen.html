@@ -66,6 +66,14 @@ sanity_data: certifications_overview
 .certification-card:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,0.13);
   transform: translateY(-2px);
+  text-decoration: none;
+}
+
+.certification-card:hover .certification-card__title,
+.certification-card:hover .certification-card__excerpt,
+.certification-card:hover .certification-card__level,
+.certification-card:hover .certification-card__btn {
+  text-decoration: none;
 }
 
 .certification-card:focus-visible {
