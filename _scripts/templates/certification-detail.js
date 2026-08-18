@@ -19,6 +19,8 @@ export function renderCertificationDetail(cert) {
     slug,
     content: `---
 layout: single
+title: "${escapeYaml(title)}"
+hide_title: true
 author_profile: false
 ---
 
