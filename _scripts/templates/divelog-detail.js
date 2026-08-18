@@ -111,6 +111,7 @@ ${galleryPhotos.map((p, i) => `  <figure class="divelog-detail__gallery-item" da
     content: `---
 layout: single
 title: "${escapeYaml(title)}"
+detail_spacing: true
 author_profile: false
 ---
 

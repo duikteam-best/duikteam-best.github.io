@@ -3,7 +3,7 @@ layout: default
 ---
 
 <div id="main" role="main">
-  <article class="page page--hero-full{% if page.hide_title %} page--hero-full--no-title{% endif %}" itemscope itemtype="https://schema.org/CreativeWork">
+  <article class="page page--hero-full{% if page.hide_title %} page--hero-full--no-title{% endif %}{% if page.detail_spacing %} page--hero-full--detail-spacing{% endif %}" itemscope itemtype="https://schema.org/CreativeWork">
     <div class="page__inner-wrap wrapper">
       {% unless page.hide_title %}
         <header>
