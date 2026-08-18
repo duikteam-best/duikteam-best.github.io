@@ -1,13 +1,18 @@
 import {StarFilledIcon} from '@sanity/icons'
+import {orderRankField, orderRankOrdering} from '@sanity/orderable-document-list'
 
 export default {
   name: 'certification',
   type: 'document',
   title: 'Opleiding',
   icon: StarFilledIcon,
+  orderings: [orderRankOrdering],
   fields: [
     { name: 'title', type: 'string', title: 'Titel' },
     { name: 'slug', type: 'slug', title: 'Slug', options: { source: 'title', maxLength: 200 } },
+    {
+      ...orderRankField({type: 'certification'}),
+    },
     { name: 'level', type: 'string', title: 'Niveau' },
     { name: 'description', type: 'array', title: 'Beschrijving', of: [
       { type: 'block' },

@@ -1,6 +1,7 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
+import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 import {schemaTypes} from './schemaTypes'
 import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon, ActivityIcon, CalendarIcon, UsersIcon, EnvelopeIcon, DocumentIcon} from '@sanity/icons'
 
@@ -15,7 +16,7 @@ export default defineConfig({
 
   plugins: [
     structureTool({
-      structure: (S) =>
+      structure: (S, context) =>
         S.list()
           .title('Content')
           .items([
@@ -56,9 +57,15 @@ export default defineConfig({
                           .schemaType('certifications')
                           .documentId('certifications')
                           .title('Overzichtspagina'),
-                      ),
+                        ),
                     S.divider(),
-                    S.documentTypeListItem('certification').title('Opleidingen'),
+                    orderableDocumentListDeskItem({
+                      type: 'certification',
+                      title: 'Opleidingen',
+                      id: 'certification-orderable',
+                      S,
+                      context,
+                    }),
                   ]),
               ),
             S.listItem()

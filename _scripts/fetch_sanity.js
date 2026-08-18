@@ -354,7 +354,7 @@ async function fetchCertificationsOverview() {
 }
 
 async function fetchCertifications() {
-  const query = `*[_type == "certification"] | order(level asc)`;
+  const query = `*[_type == "certification"] | order(coalesce(orderRank, "zzzzzzzz") asc, level asc, title asc)`;
   const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
   const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   const json = await res.json();
