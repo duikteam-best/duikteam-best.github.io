@@ -11,7 +11,7 @@ sanity_data: certifications_overview
   <div class="certifications-grid">
     {% for cert in certifications %}
       {% assign slug = cert.slug.current | default: cert._id %}
-      <div class="certification-card">
+      <a href="/opleidingen/{{ slug }}/" class="certification-card" aria-label="Bekijk opleiding {{ cert.title }}">
         <div class="certification-card__image">
           {% if cert.imageUrl %}
             <img src="{{ cert.imageUrl }}" alt="{{ cert.title }}">
@@ -29,9 +29,9 @@ sanity_data: certifications_overview
               {{ cert.descriptionHTML | strip_html | truncatewords: 10 }}
             </div>
           {% endif %}
-          <a href="/opleidingen/{{ slug }}/" class="btn btn--primary certification-card__btn">Meer info</a>
+          <span class="btn btn--primary certification-card__btn">Meer info</span>
         </div>
-      </div>
+      </a>
     {% endfor %}
   </div>
 {% else %}
@@ -45,12 +45,15 @@ sanity_data: certifications_overview
 
 .certifications-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
   gap: 2rem;
   margin-top: 1.5rem;
 }
 
 .certification-card {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
@@ -63,6 +66,11 @@ sanity_data: certifications_overview
 .certification-card:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,0.13);
   transform: translateY(-2px);
+}
+
+.certification-card:focus-visible {
+  outline: 3px solid rgba(0, 119, 182, 0.35);
+  outline-offset: 3px;
 }
 
 .certification-card__image {
@@ -119,5 +127,6 @@ sanity_data: certifications_overview
 .certification-card__btn {
   margin-top: 0.75rem;
   align-self: flex-start;
+  pointer-events: none;
 }
 </style>

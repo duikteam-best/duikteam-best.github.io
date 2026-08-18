@@ -18,20 +18,16 @@ author_profile: false
   <div class="divelogs-grid">
     {% for dive in dives %}
       {% assign slug = dive.slug.current | default: dive._id %}
-      <div class="divelog-card">
-        <a href="/duiklogs/{{ slug }}/" class="divelog-card__link">
-          <div class="divelog-card__image">
-            {% if dive.photos and dive.photos.size > 0 %}
-              <img src="{{ dive.photos[0].url }}" alt="{{ dive.title }}">
-            {% else %}
-              <img src="/assets/images/logo-duikteam-best.png" alt="{{ dive.title }}" class="divelog-card__image--placeholder">
-            {% endif %}
-          </div>
-        </a>
+      <a href="/duiklogs/{{ slug }}/" class="divelog-card" aria-label="Bekijk duiklog {{ dive.title }}">
+        <div class="divelog-card__image">
+          {% if dive.photos and dive.photos.size > 0 %}
+            <img src="{{ dive.photos[0].url }}" alt="{{ dive.title }}">
+          {% else %}
+            <img src="/assets/images/logo-duikteam-best.png" alt="{{ dive.title }}" class="divelog-card__image--placeholder">
+          {% endif %}
+        </div>
         <div class="divelog-card__content">
-          <a href="/duiklogs/{{ slug }}/" class="divelog-card__title-link">
-            <h2 class="divelog-card__title">{{ dive.title }}</h2>
-          </a>
+          <h2 class="divelog-card__title">{{ dive.title }}</h2>
           <div class="divelog-card__meta">
             {% if dive.date %}
               <span><i class="fas fa-calendar-alt"></i> {{ dive.date | date: "%-d %B %Y" }}</span>
@@ -45,9 +41,9 @@ author_profile: false
               {{ dive.descriptionHTML | strip_html | truncatewords: 25 }}
             </div>
           {% endif %}
-          <a href="/duiklogs/{{ slug }}/" class="btn btn--primary btn--small divelog-card__btn">Lees meer</a>
+          <span class="btn btn--primary btn--small divelog-card__btn">Lees meer</span>
         </div>
-      </div>
+      </a>
     {% endfor %}
   </div>
 {% else %}
@@ -61,12 +57,15 @@ author_profile: false
 
 .divelogs-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(360px, 1fr));
   gap: 2rem;
   margin-top: 1rem;
 }
 
 .divelog-card {
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   overflow: hidden;
@@ -79,6 +78,11 @@ author_profile: false
 .divelog-card:hover {
   box-shadow: 0 4px 16px rgba(0,0,0,0.13);
   transform: translateY(-2px);
+}
+
+.divelog-card:focus-visible {
+  outline: 3px solid rgba(0, 119, 182, 0.35);
+  outline-offset: 3px;
 }
 
 .divelog-card__image {
@@ -104,11 +108,6 @@ author_profile: false
   transform: scale(1.04);
 }
 
-.divelog-card__link {
-  display: block;
-  overflow: hidden;
-}
-
 .divelog-card__content {
   padding: 1.2rem;
   flex: 1;
@@ -117,19 +116,10 @@ author_profile: false
   gap: 0.4rem;
 }
 
-.divelog-card__title-link {
-  text-decoration: none;
-  color: inherit;
-}
-
 .divelog-card__title {
   margin: 0;
   font-size: 1.1rem;
   line-height: 1.3;
-}
-
-.divelog-card__title-link:hover .divelog-card__title {
-  color: #0077b6;
 }
 
 .divelog-card__meta {
@@ -156,5 +146,6 @@ author_profile: false
 .divelog-card__btn {
   margin-top: 0.5rem;
   align-self: flex-start;
+  pointer-events: none;
 }
 </style>
