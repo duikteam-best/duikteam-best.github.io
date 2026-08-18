@@ -6,7 +6,7 @@ author_profile: false
 ---
 
 {% assign overview = site.data.divelogs_overview %}
-{% assign dives = site.data.dives %}
+{% assign dives = site.data.dives | sort: 'date' | reverse %}
 
 {% if overview.bodyHTML %}
   <div class="divelogs-intro">

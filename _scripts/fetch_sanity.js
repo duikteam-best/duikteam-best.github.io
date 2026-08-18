@@ -251,7 +251,7 @@ async function fetchDivelogsOverview() {
 }
 
 async function fetchDives() {
-  const query = `*[_type == "dive"] | order(date desc)`;
+  const query = `*[_type == "dive"] | order(coalesce(date, "1970-01-01T00:00:00Z") desc, title asc)`;
   const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
   const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   const json = await res.json();
