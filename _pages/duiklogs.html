@@ -7,6 +7,7 @@ author_profile: false
 
 {% assign overview = site.data.divelogs_overview %}
 {% assign dives = site.data.dives | sort: 'date' | reverse %}
+{% assign nl_months_short = "jan|feb|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec" | split: "|" %}
 
 {% if overview.bodyHTML %}
   <div class="divelogs-intro">
@@ -30,7 +31,8 @@ author_profile: false
           <h2 class="divelog-card__title">{{ dive.title }}</h2>
           <div class="divelog-card__meta">
             {% if dive.date %}
-              <span><i class="fas fa-calendar-alt"></i> {{ dive.date | date: "%-d %B %Y" }}</span>
+              {% assign dive_month_idx = dive.date | date: "%-m" | minus: 1 %}
+              <span><i class="fas fa-calendar-alt"></i> {{ dive.date | date: "%-d" }} {{ nl_months_short[dive_month_idx] }} {{ dive.date | date: "%Y" }}</span>
             {% endif %}
             {% if dive.location %}
               <span><i class="fas fa-map-marker-alt"></i> {{ dive.location }}</span>
