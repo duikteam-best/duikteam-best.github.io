@@ -28,8 +28,8 @@ author_profile: false
   <div class="certification-detail__header">
     ${imageHtml}
     <div class="certification-detail__meta">
-      ${levelHtml}
       <h1 class="certification-detail__title">${title}</h1>
+      ${levelHtml}
     </div>
   </div>
 
