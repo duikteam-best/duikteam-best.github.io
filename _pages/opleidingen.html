@@ -20,10 +20,10 @@ sanity_data: certifications_overview
           {% endif %}
         </div>
         <div class="certification-card__content">
+          <h2 class="certification-card__title">{{ cert.title }}</h2>
           {% if cert.level %}
             <span class="certification-card__level">{{ cert.level }}</span>
           {% endif %}
-          <h2 class="certification-card__title">{{ cert.title }}</h2>
           {% if cert.descriptionHTML %}
             <div class="certification-card__excerpt">
               {{ cert.descriptionHTML | strip_html | truncatewords: 10 }}
