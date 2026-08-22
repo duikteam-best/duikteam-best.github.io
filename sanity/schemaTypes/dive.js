@@ -12,6 +12,7 @@ export default {
     { name: 'location', type: 'string', title: 'Locatie' },
     { name: 'description', type: 'array', title: 'Omschrijving', of: [
       { type: 'block' },
+      { type: 'youtubeEmbed' },
       { type: 'image', options: { hotspot: true }, fields: [
         { name: 'caption', type: 'string', title: 'Bijschrift' },
         { name: 'alt', type: 'string', title: 'Alternatieve tekst' },

@@ -30,6 +30,48 @@ function getImageUrl(image) {
   return `https://cdn.sanity.io/images/${projectId}/${dataset}/${id}-${dims}.${format}`;
 }
 
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function getYouTubeEmbedUrl(url) {
+  if (!url) return null;
+
+  try {
+    const parsed = new URL(url);
+    const host = parsed.hostname.replace(/^www\./, '');
+
+    if (host === 'youtu.be') {
+      const id = parsed.pathname.split('/').filter(Boolean)[0];
+      return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+    }
+
+    if (host === 'youtube.com' || host === 'm.youtube.com') {
+      if (parsed.pathname.startsWith('/embed/')) {
+        const id = parsed.pathname.split('/').filter(Boolean)[1];
+        return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+      }
+
+      if (parsed.pathname.startsWith('/shorts/')) {
+        const id = parsed.pathname.split('/').filter(Boolean)[1];
+        return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+      }
+
+      const id = parsed.searchParams.get('v');
+      return id ? `https://www.youtube-nocookie.com/embed/${id}` : null;
+    }
+  } catch {
+    return null;
+  }
+
+  return null;
+}
+
 // Shared Portable Text → HTML renderer with block-image support
 function portableTextToHTML(blocks) {
   return toHTML(blocks, {
@@ -45,6 +87,25 @@ function portableTextToHTML(blocks) {
           return `<figure class="${cls}">
   <img src="${url}" alt="${alt}" loading="lazy">
   ${caption ? `<figcaption>${caption}</figcaption>` : ''}
+</figure>`;
+        },
+        youtubeEmbed: ({ value }) => {
+          const embedUrl = getYouTubeEmbedUrl(value?.url);
+          if (!embedUrl) return '';
+
+          const title = value?.title || 'YouTube video';
+          const caption = [value?.caption, value?.title].filter(Boolean).join(' ');
+          return `<figure class="body-video">
+  <div class="body-video__frame">
+    <iframe
+      src="${embedUrl}"
+      title="${escapeHtml(title)}"
+      loading="lazy"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+      allowfullscreen
+    ></iframe>
+  </div>
+  ${caption ? `<figcaption>${escapeHtml(caption)}</figcaption>` : ''}
 </figure>`;
         },
       },

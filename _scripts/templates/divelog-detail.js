@@ -157,6 +157,29 @@ ${galleryScript}
 .divelog-detail__body p {
   line-height: 1.7;
 }
+.divelog-detail__body .body-video {
+  margin: 1.75rem 0;
+}
+.divelog-detail__body .body-video__frame {
+  position: relative;
+  padding-top: 56.25%;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #000;
+}
+.divelog-detail__body .body-video__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.divelog-detail__body .body-video figcaption {
+  font-size: 0.9rem;
+  color: #666;
+  margin-top: 0.5rem;
+  text-align: center;
+}
 .divelog-detail__gallery {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
