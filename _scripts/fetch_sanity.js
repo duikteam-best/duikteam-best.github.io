@@ -89,6 +89,18 @@ function portableTextToHTML(blocks) {
   ${caption ? `<figcaption>${caption}</figcaption>` : ''}
 </figure>`;
         },
+        bodyImage: ({ value }) => {
+          const url = getImageUrl(value?.image);
+          if (!url) return '';
+          const alt = value?.image?.alt || '';
+          const caption = value?.image?.caption || '';
+          const alignment = value?.alignment || 'center';
+          const cls = `body-image body-image--${alignment}`;
+          return `<figure class="${cls}">
+  <img src="${url}" alt="${alt}" loading="lazy">
+  ${caption ? `<figcaption>${caption}</figcaption>` : ''}
+</figure>`;
+        },
         youtubeEmbed: ({ value }) => {
           const embedUrl = getYouTubeEmbedUrl(value?.url);
           if (!embedUrl) return '';

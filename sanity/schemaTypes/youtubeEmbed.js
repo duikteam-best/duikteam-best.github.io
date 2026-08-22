@@ -1,3 +1,5 @@
+import {PlayIcon} from '@sanity/icons'
+
 function getEmbedUrl(url) {
   if (!url) return ''
 
@@ -21,6 +23,7 @@ export default {
   name: 'youtubeEmbed',
   type: 'object',
   title: 'YouTube video',
+  icon: PlayIcon,
   fields: [
     {
       name: 'url',
@@ -55,6 +58,7 @@ export default {
       return {
         title: title || 'YouTube video',
         subtitle: embedUrl || url || 'Voeg een geldige YouTube-link toe',
+        media: PlayIcon,
       }
     },
   },

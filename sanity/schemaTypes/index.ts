@@ -11,5 +11,6 @@ import activity from './activity'
 import membershipPage from './membershipPage'
 import contactPage from './contactPage'
 import youtubeEmbed from './youtubeEmbed'
+import bodyImage from './bodyImage'
 
-export const schemaTypes = [homePage, aboutUs, membershipPage, contactPage, certifications, certification, divelogsOverview, activitiesOverview, dive, activity, privacyPolicy, recruitmentPolicy, youtubeEmbed]
+export const schemaTypes = [homePage, aboutUs, membershipPage, contactPage, certifications, certification, divelogsOverview, activitiesOverview, dive, activity, privacyPolicy, recruitmentPolicy, youtubeEmbed, bodyImage]
