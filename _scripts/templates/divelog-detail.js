@@ -162,10 +162,19 @@ ${galleryScript}
 }
 .divelog-detail__body .body-video__frame {
   position: relative;
+  width: 100%;
+  height: 0;
   padding-top: 56.25%;
   border-radius: 10px;
   overflow: hidden;
   background: #000;
+}
+.divelog-detail__body .body-video__frame .fluid-width-video-wrapper {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding-top: 0 !important;
 }
 .divelog-detail__body .body-video__frame iframe {
   position: absolute;

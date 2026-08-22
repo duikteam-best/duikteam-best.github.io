@@ -100,6 +100,8 @@ function portableTextToHTML(blocks) {
     <iframe
       src="${embedUrl}"
       title="${escapeHtml(title)}"
+      width="560"
+      height="315"
       loading="lazy"
       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
       allowfullscreen
