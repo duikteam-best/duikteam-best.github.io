@@ -46,11 +46,11 @@ author_profile: false
               <article class="activity-card{% if has_coords %} activity-card--has-map{% endif %}">
                 <div class="activity-card__body">
                   <div class="activity-card__date-badge">
+                    {% assign act_weekday_idx = activity.date | date: "%w" | plus: 0 %}
+                    <span class="activity-card__weekday">{{ nl_weekdays[act_weekday_idx] }}</span>
                     <span class="activity-card__day">{{ activity.date | date: "%-d" }}</span>
                     {% assign act_month_idx = activity.date | date: "%-m" | minus: 1 %}
                     <span class="activity-card__month-short">{{ nl_months_short[act_month_idx] }}</span>
-                    {% assign act_weekday_idx = activity.date | date: "%w" | plus: 0 %}
-                    <span class="activity-card__weekday">{{ nl_weekdays[act_weekday_idx] }}</span>
                   </div>
                   <div class="activity-card__content">
                     <h4 class="activity-card__title">{{ activity.title }}</h4>
