@@ -25,6 +25,13 @@ export default {
       validation: (Rule) => Rule.required(),
     },
     {
+      name: 'weekend',
+      type: 'reference',
+      title: 'Onderdeel van activiteitenweekend',
+      to: [{ type: 'activityWeekend' }],
+      description: 'Optioneel: koppel deze activiteit aan een activiteitenweekend.',
+    },
+    {
       name: 'featuredImage',
       type: 'image',
       title: 'Foto',

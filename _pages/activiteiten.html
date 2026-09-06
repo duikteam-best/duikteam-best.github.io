@@ -26,72 +26,85 @@ author_profile: false
           <span class="activities-month__label">{{ month_label_cap }}</span>
         </h2>
         <div class="activities-list">
-          {% for activity in group.items %}
-            {% assign has_coords = false %}
-            {% if activity.location.coordinates.lat != nil %}
-              {% assign has_coords = true %}
-              {% assign lat = activity.location.coordinates.lat %}
-              {% assign lng = activity.location.coordinates.lng %}
+          {% assign activity_groups = group.items | group_by_exp: "item", "item.weekend._id | default: item._id" %}
+          {% for activity_group in activity_groups %}
+            {% assign weekend = activity_group.items[0].weekend %}
+            {% if weekend %}
+              <section class="activities-weekend">
+                <h3 class="activities-weekend__heading"><i class="fas fa-calendar-week"></i>{{ weekend.title }}</h3>
             {% endif %}
 
-            <article class="activity-card{% if has_coords %} activity-card--has-map{% endif %}">
-              <div class="activity-card__body">
-                <div class="activity-card__date-badge">
-                  <span class="activity-card__day">{{ activity.date | date: "%-d" }}</span>
-                  {% assign act_month_idx = activity.date | date: "%-m" | minus: 1 %}
-                  <span class="activity-card__month-short">{{ nl_months_short[act_month_idx] }}</span>
-                </div>
-                <div class="activity-card__content">
-                  <h3 class="activity-card__title">{{ activity.title }}</h3>
-                  {% assign activity_time = activity.date | date: "%H:%M" %}
-                  {% if activity_time != "00:00" %}
-                    <div class="activity-card__time">
-                      <i class="fas fa-clock"></i>
-                      <span>{{ activity_time }}</span>
+            {% for activity in activity_group.items %}
+              {% assign has_coords = false %}
+              {% if activity.location.coordinates.lat != nil %}
+                {% assign has_coords = true %}
+                {% assign lat = activity.location.coordinates.lat %}
+                {% assign lng = activity.location.coordinates.lng %}
+              {% endif %}
+
+              <article class="activity-card{% if has_coords %} activity-card--has-map{% endif %}">
+                <div class="activity-card__body">
+                  <div class="activity-card__date-badge">
+                    <span class="activity-card__day">{{ activity.date | date: "%-d" }}</span>
+                    {% assign act_month_idx = activity.date | date: "%-m" | minus: 1 %}
+                    <span class="activity-card__month-short">{{ nl_months_short[act_month_idx] }}</span>
+                  </div>
+                  <div class="activity-card__content">
+                    <h4 class="activity-card__title">{{ activity.title }}</h4>
+                    {% assign activity_time = activity.date | date: "%H:%M" %}
+                    {% if activity_time != "00:00" %}
+                      <div class="activity-card__time">
+                        <i class="fas fa-clock"></i>
+                        <span>{{ activity_time }}</span>
+                      </div>
+                    {% endif %}
+                    {% if activity.location %}
+                      <div class="activity-card__location">
+                        <i class="fas fa-map-marker-alt"></i>
+                        {% if activity.location.name %}
+                          <span>{{ activity.location.name }}</span>
+                        {% endif %}
+                        {% if activity.location.mapsUrl %}
+                          <a href="{{ activity.location.mapsUrl }}" target="_blank" rel="noopener" class="activity-card__maps-link">
+                            Bekijk op Google Maps <i class="fas fa-external-link-alt"></i>
+                          </a>
+                        {% elsif has_coords %}
+                          <a href="https://www.google.com/maps?q={{ lat }},{{ lng }}" target="_blank" rel="noopener" class="activity-card__maps-link">
+                            Bekijk op Google Maps <i class="fas fa-external-link-alt"></i>
+                          </a>
+                        {% endif %}
+                      </div>
+                    {% endif %}
+                  </div>
+                  {% if activity.featuredImage.url %}
+                    <div class="activity-card__image">
+                      <img src="{{ activity.featuredImage.url }}" alt="{{ activity.featuredImage.alt | default: activity.title }}" loading="lazy">
                     </div>
                   {% endif %}
-                  {% if activity.location %}
-                    <div class="activity-card__location">
-                      <i class="fas fa-map-marker-alt"></i>
-                      {% if activity.location.name %}
-                        <span>{{ activity.location.name }}</span>
-                      {% endif %}
-                      {% if activity.location.mapsUrl %}
-                        <a href="{{ activity.location.mapsUrl }}" target="_blank" rel="noopener" class="activity-card__maps-link">
-                          Bekijk op Google Maps <i class="fas fa-external-link-alt"></i>
-                        </a>
-                      {% elsif has_coords %}
-                        <a href="https://www.google.com/maps?q={{ lat }},{{ lng }}" target="_blank" rel="noopener" class="activity-card__maps-link">
-                          Bekijk op Google Maps <i class="fas fa-external-link-alt"></i>
-                        </a>
-                      {% endif %}
-                    </div>
-                  {% endif %}
                 </div>
-                {% if activity.featuredImage.url %}
-                  <div class="activity-card__image">
-                    <img src="{{ activity.featuredImage.url }}" alt="{{ activity.featuredImage.alt | default: activity.title }}" loading="lazy">
+
+                {% if has_coords %}
+                  <div class="activity-card__map">
+                    {% assign lat_min = lat | minus: 0.01 %}
+                    {% assign lat_max = lat | plus: 0.01 %}
+                    {% assign lng_min = lng | minus: 0.01 %}
+                    {% assign lng_max = lng | plus: 0.01 %}
+                    <iframe
+                      src="https://www.openstreetmap.org/export/embed.html?bbox={{ lng_min }}%2C{{ lat_min }}%2C{{ lng_max }}%2C{{ lat_max }}&layer=mapnik&marker={{ lat }}%2C{{ lng }}"
+                      loading="lazy"
+                      title="Locatie {{ activity.location.name | default: activity.title }}"
+                    ></iframe>
+                    <a href="https://www.openstreetmap.org/?mlat={{ lat }}&mlon={{ lng }}" target="_blank" rel="noopener" class="activity-card__osm-link">
+                      Vergroot kaart
+                    </a>
                   </div>
                 {% endif %}
-              </div>
+              </article>
+            {% endfor %}
 
-              {% if has_coords %}
-                <div class="activity-card__map">
-                  {% assign lat_min = lat | minus: 0.01 %}
-                  {% assign lat_max = lat | plus: 0.01 %}
-                  {% assign lng_min = lng | minus: 0.01 %}
-                  {% assign lng_max = lng | plus: 0.01 %}
-                  <iframe
-                    src="https://www.openstreetmap.org/export/embed.html?bbox={{ lng_min }}%2C{{ lat_min }}%2C{{ lng_max }}%2C{{ lat_max }}&layer=mapnik&marker={{ lat }}%2C{{ lng }}"
-                    loading="lazy"
-                    title="Locatie {{ activity.location.name | default: activity.title }}"
-                  ></iframe>
-                  <a href="https://www.openstreetmap.org/?mlat={{ lat }}&mlon={{ lng }}" target="_blank" rel="noopener" class="activity-card__osm-link">
-                    Vergroot kaart
-                  </a>
-                </div>
-              {% endif %}
-            </article>
+            {% if weekend %}
+              </section>
+            {% endif %}
           {% endfor %}
         </div>
       </section>
@@ -143,6 +156,28 @@ author_profile: false
   display: flex;
   flex-direction: column;
   gap: 1rem;
+}
+
+/* ── Weekend group ──────────────────────────────────── */
+.activities-weekend {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+  padding: 0.9rem;
+  border: 1px solid #cce4f7;
+  border-left: 3px solid #0077cc;
+  border-radius: 8px;
+  background: #f8fcff;
+}
+
+.activities-weekend__heading {
+  display: flex;
+  align-items: center;
+  gap: 0.45rem;
+  margin: 0;
+  color: #17689f;
+  font-size: 0.9rem;
+  font-weight: 700;
 }
 
 /* ── Single card ─────────────────────────────────────── */

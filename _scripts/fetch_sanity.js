@@ -464,7 +464,7 @@ async function fetchContactPage() {
 }
 
 async function fetchActivities() {
-  const query = `*[_type == "activity" && date >= now()] | order(date asc)`;
+  const query = `*[_type == "activity" && date >= now()] | order(date asc){..., "weekend": weekend->{_id, title}}`;
   const url = `https://${projectId}.api.sanity.io/v2023-01-01/data/query/${dataset}?query=${encodeURIComponent(query)}`;
   const res = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
   const json = await res.json();

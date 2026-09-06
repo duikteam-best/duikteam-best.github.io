@@ -1,6 +1,7 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
 import {visionTool} from '@sanity/vision'
+import {nlNLLocale} from '@sanity/locale-nl-nl'
 import {orderableDocumentListDeskItem} from '@sanity/orderable-document-list'
 import {schemaTypes} from './schemaTypes'
 import {HomeIcon, StarIcon, StarFilledIcon, InfoOutlineIcon, ActivityIcon, CalendarIcon, UsersIcon, EnvelopeIcon, DocumentIcon} from '@sanity/icons'
@@ -15,6 +16,7 @@ export default defineConfig({
   dataset: 'production',
 
   plugins: [
+    nlNLLocale(),
     structureTool({
       structure: (S, context) =>
         S.list()
@@ -130,6 +132,7 @@ export default defineConfig({
                       ),
                     S.divider(),
                     S.documentTypeListItem('activity').title('Activiteiten'),
+                      S.documentTypeListItem('activityWeekend').title('Activiteitenweekenden'),
                   ]),
               ),
             S.listItem()
