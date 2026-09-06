@@ -32,6 +32,17 @@ export default {
       description: 'Optioneel: koppel deze activiteit aan een activiteitenweekend.',
     },
     {
+      name: 'kentering',
+      type: 'string',
+      title: 'Kentering',
+      description: 'Optioneel: tijdstip waarop het getij keert.',
+      placeholder: '12:34',
+      validation: (Rule) => Rule.regex(/^([01]\d|2[0-3]):[0-5]\d$/, {
+        name: 'tijdstip',
+        invert: false,
+      }).warning('Gebruik de notatie UU:MM, bijvoorbeeld 12:34.'),
+    },
+    {
       name: 'featuredImage',
       type: 'image',
       title: 'Foto',
