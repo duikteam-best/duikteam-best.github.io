@@ -43,6 +43,19 @@ export default {
       }).warning('Gebruik de notatie UU:MM, bijvoorbeeld 12:34.'),
     },
     {
+      name: 'getij',
+      type: 'string',
+      title: 'Getij',
+      description: 'Optioneel: het type getij bij de kentering.',
+      options: {
+        list: [
+          { title: 'Hoogwater', value: 'hoogwater' },
+          { title: 'Laagwater', value: 'laagwater' },
+        ],
+        layout: 'radio',
+      },
+    },
+    {
       name: 'featuredImage',
       type: 'image',
       title: 'Foto',

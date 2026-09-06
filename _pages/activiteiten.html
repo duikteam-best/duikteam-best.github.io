@@ -61,7 +61,7 @@ author_profile: false
                     {% if activity.kentering %}
                       <div class="activity-card__tide" title="Kentering">
                         <i class="fas fa-water"></i>
-                        <span>Kentering {{ activity.kentering }}</span>
+                        <span>Kentering {{ activity.kentering }}{% if activity.getij %} · {{ activity.getij | capitalize }}{% endif %}</span>
                       </div>
                     {% endif %}
                     {% if activity.location %}
