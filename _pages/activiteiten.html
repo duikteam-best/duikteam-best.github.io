@@ -14,6 +14,7 @@ author_profile: false
 
   {% assign nl_months_long = "januari|februari|maart|april|mei|juni|juli|augustus|september|oktober|november|december" | split: "|" %}
   {% assign nl_months_short = "jan|feb|mrt|apr|mei|jun|jul|aug|sep|okt|nov|dec" | split: "|" %}
+  {% assign nl_weekdays = "zondag|maandag|dinsdag|woensdag|donderdag|vrijdag|zaterdag" | split: "|" %}
 
   <div class="activities-timeline">
     {% for group in grouped_sorted %}
@@ -48,6 +49,8 @@ author_profile: false
                     <span class="activity-card__day">{{ activity.date | date: "%-d" }}</span>
                     {% assign act_month_idx = activity.date | date: "%-m" | minus: 1 %}
                     <span class="activity-card__month-short">{{ nl_months_short[act_month_idx] }}</span>
+                    {% assign act_weekday_idx = activity.date | date: "%w" %}
+                    <span class="activity-card__weekday">{{ nl_weekdays[act_weekday_idx] }}</span>
                   </div>
                   <div class="activity-card__content">
                     <h4 class="activity-card__title">{{ activity.title }}</h4>
@@ -224,7 +227,7 @@ author_profile: false
 /* ── Date badge ──────────────────────────────────────── */
 .activity-card__date-badge {
   flex-shrink: 0;
-  width: 50px;
+  width: 72px;
   background: #0077cc;
   border-radius: 8px;
   color: #fff;
@@ -246,6 +249,13 @@ author_profile: false
   letter-spacing: 0.05em;
   opacity: 0.9;
   margin-top: 2px;
+}
+
+.activity-card__weekday {
+  margin-top: 0.3rem;
+  font-size: 0.65rem;
+  font-weight: 600;
+  line-height: 1;
 }
 
 /* ── Content ─────────────────────────────────────────── */
